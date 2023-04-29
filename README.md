@@ -83,6 +83,7 @@ BingString="Important informations:" + RawBingString + "\n" + "Now answer the fo
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
+I could add something but I don't know if I'll have the will; some ideas I had in mind, and they should be moderately simple, are configuring it to be usable with the oobabooga API, and activating EdgeGPT with another button, without having to write "Hey Bing", but I didn't put them because I don't know if it's worth it.
 
 ## Credits and inspiration
  - acheong08 for his amazing default [EdgeGPT](https://github.com/acheong08/EdgeGPT).
