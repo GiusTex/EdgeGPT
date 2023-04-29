@@ -46,6 +46,7 @@ python server.py --chat --extensions EdgeGPT
 ```bash
 BingOutput = re.search('^Hey Bing', UserInput)
 ```
+- It works with "chat, streaming, non-streaming" modes (the ones I have tested).
 
 ## How does it work
 Inside the function "input_modifier" the code looks for the chosen word:
