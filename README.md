@@ -21,6 +21,7 @@ pip install -r EdgeGPT/requirements.txt
 5. Copy the cookies in a file.
      If you can't find the extension on Microsoft Edge, follow the steps in the image:
      ![ExportCookies](https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png)
+     
      1- Click the puzzle icon;
      2- Click the cookie icon;
      3- Click the fifth option on top, to copy them.
