@@ -19,16 +19,16 @@ pip install -r EdgeGPT/requirements.txt
 ![CookieEditor](https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png)
 
 5. Copy the cookies in a file.
-     If you can't find the extension on Microsoft Edge, follow the steps in the image:
+     If you can't find the extension on Microsoft Edge, follow these steps:
      ![ExportCookies](https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png)
      
-     1- Click the puzzle icon;
+       1- Click the puzzle icon;
      
-     2- Click the cookie icon;
+       2- Click the cookie icon;
      
-     3- Click the fifth option on top, to copy them.
+       3- Click the fifth option on top, to copy them.
    
-   Now that you copied them, go inside text-generation-webui\extensions\EdgeGPT and create a txt file, then paste here the cookies settings, then rename the text file    to cookies.json
+   Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and create a txt file, then paste here the cookies settings, then rename the text    file to cookies.json
 
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
 ```bash
