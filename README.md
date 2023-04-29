@@ -7,7 +7,7 @@ Now you can give Internet access to your chatbot, quickly and easy, without Open
 
 2. Open the extensions folder and clone here this repo:
 ```bash
-git clone https://github.com/GiusTex/EdgeGPT
+git clone https://github.com/GiusTex/EdgeGPT.git
 ```
 
 3. Within the `textgen` conda environment (from the linked instructions, or TextGenerationWebui\installer_files\env if you used the one-click installer), run the following commands to install dependencies:
@@ -22,11 +22,11 @@ pip install -r EdgeGPT/requirements.txt
      If you can't find the extension on Microsoft Edge, follow these steps:
      ![ExportCookies](https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png)
      
-       1- Click the puzzle icon;
+      1- Click the puzzle icon;
      
-       2- Click the cookie icon;
+      2- Click the cookie icon;
      
-       3- Click the fifth option on top, to copy them.
+      3- Click the fifth option on top, to copy them.
    
    Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and create a txt file, then paste here the cookies settings, then rename the text    file to cookies.json
 
@@ -34,3 +34,54 @@ pip install -r EdgeGPT/requirements.txt
 ```bash
 python server.py --chat --extensions EdgeGPT
 ```
+
+## Features
+- Start the prompt with Hey Bing, and Bing will search and give an answer, that will be fed to the bot memory before it answers you.
+![Example1](https://user-images.githubusercontent.com/112352961/235326069-26f33ebf-8378-452f-bacf-85f192346ba2.png)
+
+- If the bot answer doesn't suit you, you can turn on an option to show the Bing output, sometimes it doesn't answer well and need better search words.
+![Example2](https://user-images.githubusercontent.com/112352961/235326217-81b3e9eb-9523-4c18-94b0-f141c841ab98.png)
+
+- You can change the chosen word to start the search, inside the script at line 30:
+![Script](https://user-images.githubusercontent.com/112352961/235326294-c9f446d0-b3bc-4828-acd7-e782f0ccb63a.png)
+```bash
+BingOutput = re.search('^Hey Bing', UserInput)
+```
+
+## How does it work
+Inside the function "input_modifier" the code look for the chosen word:
+```bash
+BingOutput = re.search('^Hey Bing', UserInput)
+```
+Then, if it finds it, it adds it to "custom_generate_chat_prompt":
+```bash
+        #Adding BingString
+        if(BingOutput!=None):
+            async def EdgeGPT():
+                global UserInput
+                global RawBingString
+                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+                # Select only the bot response from the response dictionary
+                for message in response["item"]["messages"]:
+                    if message["author"] == "bot":
+                        bot_response = message["text"]
+                # Remove [^#^] citations in response
+                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+                await bot.close()
+                #print("\nBingString output:\n", RawBingString)
+                return RawBingString
+            asyncio.run(EdgeGPT())
+            global RawBingString
+            global BingString
+            BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+            rows.append(BingString)
+``` 
+And at the end it takes RawBingString and adds it another bit of context, generating BingString so the bot memory has the Bing output. If you want you can also change the context around the RawBingString at line 118 inside script.py, to better suit your desidered answer.
+
+## Contributing
+Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
+
+## Credits
+acheong08 for his amazing default [EdgeGPT](https://github.com/acheong08/EdgeGPT).
+The tutorial video by [Ai Austin](https://youtu.be/aokn48vB0kc), where he show the code to install EdgeGPT and use it, and gave me inspiration.
