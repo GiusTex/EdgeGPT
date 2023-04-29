@@ -48,11 +48,11 @@ BingOutput = re.search('^Hey Bing', UserInput)
 ```
 
 ## How does it work
-Inside the function "input_modifier" the code look for the chosen word:
+Inside the function "input_modifier" the code looks for the chosen word:
 ```bash
 BingOutput = re.search('^Hey Bing', UserInput)
 ```
-Then, if it finds it, it adds it to "custom_generate_chat_prompt":
+Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 100:
 ```bash
         #Adding BingString
         if(BingOutput!=None):
@@ -77,10 +77,13 @@ Then, if it finds it, it adds it to "custom_generate_chat_prompt":
             rows.append(BingString)
 ``` 
 And at the end it takes RawBingString and adds it another bit of context, generating BingString so the bot memory has the Bing output. If you want you can also change the context around the RawBingString at line 118 inside script.py, to better suit your desidered answer.
+```bash
+BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+```
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
 
-## Credits
+## Credits and inspiration
 acheong08 for his amazing default [EdgeGPT](https://github.com/acheong08/EdgeGPT).
-The tutorial video by [Ai Austin](https://youtu.be/aokn48vB0kc), where he show the code to install EdgeGPT and use it, and gave me inspiration.
+The tutorial video by [Ai Austin](https://youtu.be/aokn48vB0kc), where he shows the code to install EdgeGPT and use it, and gave me a bit of inspiration.
