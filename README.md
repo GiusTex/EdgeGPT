@@ -28,7 +28,7 @@ pip install -r EdgeGPT/requirements.txt
      
       3- Click the fifth option on top, to copy them.
    
-   Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and create a txt file, then paste here the cookies settings, then rename the text    file to cookies.json
+   Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
 
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
 ```bash
