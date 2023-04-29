@@ -39,11 +39,10 @@ python server.py --chat --extensions EdgeGPT
 - Start the prompt with Hey Bing, and Bing will search and give an answer, that will be fed to the bot memory before it answers you.
 ![Example1](https://user-images.githubusercontent.com/112352961/235326069-26f33ebf-8378-452f-bacf-85f192346ba2.png)
 
-- If the bot answer doesn't suit you, you can turn on an option to show the Bing output, sometimes it doesn't answer well and need better search words.
+- If the bot answer doesn't suit you, you can turn on "Show Bing Output" to show the Bing output, sometimes it doesn't answer well and need better search words.
 ![Example2](https://user-images.githubusercontent.com/112352961/235326217-81b3e9eb-9523-4c18-94b0-f141c841ab98.png)
 
 - You can change the chosen word to start the search, inside the script at line 30:
-![Script](https://user-images.githubusercontent.com/112352961/235326294-c9f446d0-b3bc-4828-acd7-e782f0ccb63a.png)
 ```bash
 BingOutput = re.search('^Hey Bing', UserInput)
 ```
