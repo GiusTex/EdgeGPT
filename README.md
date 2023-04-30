@@ -81,7 +81,7 @@ BingOutput = re.search(ChosenWord, UserInput)
 Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 137:
 ```bash
         #Adding BingString
-        if(BingOutput!=None):
+        if(BingOutput!=None) and not OverwriteWord:
             async def EdgeGPT():
                 global UserInput
                 global RawBingString
