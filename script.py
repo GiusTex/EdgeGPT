@@ -13,6 +13,7 @@ BingOutput=None
 RawBingString=None
 BingString=None
 ShowBingString=False
+OverwriteWord=False
 PrintUserInput=False
 PrintWholePrompt=False
 PrintRawBingString=False
@@ -26,10 +27,11 @@ print("\nThanks for using the EdgeGPT extension! If you encounter any bug or you
 
 params = {
     'ShowBingString': False,
+    'OverwriteWord': False,
     'PrintUserInput': False,
     'PrintWholePrompt': False,
-    'PrintRawBingString':False,
-    'PrintBingString':False
+    'PrintRawBingString': False,
+    'PrintBingString': False
 }
 
 def input_modifier(string):
@@ -50,7 +52,13 @@ def input_modifier(string):
         ShowBingString=True
     else:
         ShowBingString=False
-    
+
+    if params['OverwriteWord']:
+        global OverwriteWord
+        OverwriteWord=True
+    else:
+        OverwriteWord=False
+
     if params['PrintUserInput']:
         global PrintUserInput
         PrintUserInput=True
@@ -76,7 +84,9 @@ def input_modifier(string):
     else:
         PrintBingString=False
 
-    if(BingOutput!=None):
+    if(BingOutput!=None) and not OverwriteWord:
+        shared.processing_message = "*Is searching...*"
+    elif OverwriteWord:
         shared.processing_message = "*Is searching...*"
     else:
         shared.processing_message = "*Is typing...*"
@@ -138,7 +148,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     elif not _continue:
 
         #Adding BingString
-        if(BingOutput!=None):
+        if(BingOutput!=None) and not OverwriteWord:
             async def EdgeGPT():
                 global UserInput
                 global RawBingString
@@ -161,6 +171,28 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             global PrintBingString
            # global BingContext1
            # global BingContext2
+            BingString=BingContext1 + RawBingString + "\n" + BingContext2
+            if PrintBingString:
+                print("\nBing output + context:\n", BingString)
+            rows.append(BingString)
+        elif OverwriteWord:
+            async def EdgeGPT():
+                global UserInput
+                global RawBingString
+                global PrintRawBingString
+                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+                # Select only the bot response from the response dictionary
+                for message in response["item"]["messages"]:
+                    if message["author"] == "bot":
+                        bot_response = message["text"]
+                # Remove [^#^] citations in response
+                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+                await bot.close()
+                if PrintRawBingString:
+                    print("\nRawBingString output:\n", RawBingString)
+                return RawBingString
+            asyncio.run(EdgeGPT())
             BingString=BingContext1 + RawBingString + "\n" + BingContext2
             if PrintBingString:
                 print("\nBing output + context:\n", BingString)
@@ -240,7 +272,8 @@ def ui():
         with gr.Row():
             ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
         with gr.Row():
-            WordOption = gr.Textbox(label='Choose Bing activation word', placeholder="Choose your word. Empty = Hey Bing")
+            WordOption = gr.Textbox(label='Choose and use a word to activate Bing', placeholder="Choose your word. Empty = Hey Bing")
+            OverwriteWord = gr.Checkbox(value=params['OverwriteWord'], label='Overwrite Activation Word. Bing will always search, ignoring the activation word.')
         with gr.Accordion("EdgeGPT context", open=False):
             with gr.Row():
                 Context1Option = gr.Textbox(label='Choose Bing context-1', placeholder="First context, is injected before the Bing output. Empty = default context-1")
@@ -265,6 +298,8 @@ def ui():
 
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
     WordOption.change(fn=FunChooseWord, inputs=WordOption)
+    OverwriteWord.change(lambda x: params.update({"OverwriteWord": x}), OverwriteWord, None)
+    
     Context1Option.change(fn=Context1Func, inputs=Context1Option)
     Context2Option.change(fn=Context2Func, inputs=Context2Option)
 
