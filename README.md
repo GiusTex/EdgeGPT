@@ -42,10 +42,6 @@ python server.py --chat --extensions EdgeGPT
 - If the bot answer doesn't suit you, you can turn on "Show Bing Output" to show the Bing output, sometimes it doesn't answer well and need better search words.
 ![Example2](https://user-images.githubusercontent.com/112352961/235326217-81b3e9eb-9523-4c18-94b0-f141c841ab98.png)
 
-- You can change the chosen word to start the search, inside the script at line 30:
-```bash
-BingOutput = re.search('^Hey Bing', UserInput)
-```
 - It works with "chat, streaming, non-streaming" modes (the ones I have tested).
 
 - Print in the console what you need:
