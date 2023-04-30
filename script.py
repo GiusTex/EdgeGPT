@@ -12,9 +12,19 @@ from modules.extensions import apply_extensions
 RawBingString=None
 BingString=None
 ShowBingString=False
+PrintUserInput=False
+PrintWholePrompt=False
+PrintRawBingString=False
+PrintBingString=False
+
+print("\nThanks for using the EdgeGPT extension! If you encounter any bug or you have some nice idea to add, write it on the issue page here: https://github.com/GiusTex/EdgeGPT/issues")
 
 params = {
-    'ShowBingString': False
+    'ShowBingString': False,
+    'PrintUserInput': False,
+    'PrintWholePrompt': False,
+    'PrintRawBingString':False,
+    'PrintBingString':False
 }
 
 def input_modifier(string):
@@ -34,7 +44,32 @@ def input_modifier(string):
         ShowBingString=True
     else:
         ShowBingString=False
-        
+    
+    if params['PrintUserInput']:
+        global PrintUserInput
+        PrintUserInput=True
+        print("User input:\n", UserInput)
+    else:
+        PrintUserInput=False
+    
+    if params['PrintWholePrompt']:
+        global PrintWholePrompt
+        PrintWholePrompt=True
+    else:
+        PrintWholePrompt=False
+    
+    if params['PrintRawBingString']:
+        global PrintRawBingString
+        PrintRawBingString=True
+    else:
+        PrintRawBingString=False
+
+    if params['PrintBingString']:
+        global PrintBingString
+        PrintBingString=True
+    else:
+        PrintBingString=False
+
     if(BingOutput!=None):
         shared.processing_message = "*Is searching...*"
     else:
@@ -101,6 +136,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             async def EdgeGPT():
                 global UserInput
                 global RawBingString
+                global PrintRawBingString
                 bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
                 response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
                 # Select only the bot response from the response dictionary
@@ -110,12 +146,16 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 # Remove [^#^] citations in response
                 RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
                 await bot.close()
-                #print("\nBingString output:\n", RawBingString)
+                if PrintRawBingString:
+                    print("\nRawBingString output:\n", RawBingString)
                 return RawBingString
             asyncio.run(EdgeGPT())
             global RawBingString
             global BingString
+            global PrintBingString
             BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+            if PrintBingString:
+                print("\nBingString output:\n", BingString)
             rows.append(BingString)
 
         # Adding the user message
@@ -130,9 +170,12 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
 
     prompt = ''.join(rows)
     if also_return_rows:
+        if PrintWholePrompt:
+            print("Prompt:\n", prompt)
         return prompt, rows
     else:
-       # print("prompt:\n", prompt)
+        if PrintWholePrompt:
+            print("Prompt:\n", prompt)
         return prompt
     
 
@@ -161,14 +204,32 @@ def bot_prefix_modifier(string):
 
 
 def ui():
-    with gr.Accordion("Instructions"):
+    global ChosenWord
+    with gr.Accordion("Instructions", open=False):
         with gr.Box():
             gr.Markdown(
                 """
                 To use it, just start the prompt with Hey Bing; it doesn't start if you don't use uppercase and lowercase as in the example. You can change the word used by editing it inside script.py in the extension folder. If the output is strange turn on ShowBingString to see the result of Bing, maybe you need to correct your answer.
                 
                 """)
-    with gr.Row():
-        ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
+            
+    with gr.Accordion("EdgeGPT options", open=False):
+        with gr.Row():
+            ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
+        
+    with gr.Accordion("Print in console options", open=False):
+        with gr.Row():
+            PrintUserInput = gr.Checkbox(value=params['PrintUserInput'], label='Print User input in command console. The user input will be fed first to Bing, and then to the default bot.')
+        with gr.Row():
+            PrintWholePrompt = gr.Checkbox(value=params['PrintWholePrompt'], label='Print whole prompt in command console. Prompt has: context, Bing search output, and user input.')
+        with gr.Row():
+            PrintRawBingString = gr.Checkbox(value=params['PrintRawBingString'], label='Print raw Bing string in command console. The raw Bing string is the clean Bing output.')
+        with gr.Row():
+            PrintBingString = gr.Checkbox(value=params['PrintBingString'], label='Print Bing string in command console. It is the Bing output + a bit of context, to let the default bot understand what to do with it.')
 
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
+
+    PrintUserInput.change(lambda x: params.update({"PrintUserInput": x}), PrintUserInput, None)
+    PrintWholePrompt.change(lambda x: params.update({"PrintWholePrompt": x}), PrintWholePrompt, None)
+    PrintRawBingString.change(lambda x: params.update({"PrintRawBingString": x}), PrintRawBingString, None)
+    PrintBingString.change(lambda x: params.update({"PrintBingString": x}), PrintBingString, None)
