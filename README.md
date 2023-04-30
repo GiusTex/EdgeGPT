@@ -10,7 +10,7 @@ Now you can give Internet access to your chatbot, easily, quickly and free.
 git clone https://github.com/GiusTex/EdgeGPT.git
 ```
 
-3. Within the `textgen` conda environment (from the linked instructions, or TextGenerationWebui\installer_files\env if you used the one-click installer), run the following commands to install dependencies:
+3. Activate the `textgen` conda environment (from the linked instructions, or TextGenerationWebui\installer_files\env if you used the one-click installer), then if you see in console: `(path\to\textgen) path\to\text-generation-webui\extensions>` or `(path\to\TextGenerationWebui\installer_files\env) path\to\TextGenerationWebui\text-generation-webui\extensions>`, run the following commands to install EdgeGPT:
 ```bash
 pip install -r EdgeGPT/requirements.txt
 ```
