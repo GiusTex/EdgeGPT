@@ -18,6 +18,8 @@ PrintRawBingString=False
 PrintBingString=False
 
 ChosenWord="Hey Bing"
+BingContext1="Important informations:"
+BingContext2="Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
 
 print("\nThanks for using the EdgeGPT extension! If you encounter any bug or you have some nice idea to add, write it on the issue page here: https://github.com/GiusTex/EdgeGPT/issues")
 
@@ -156,9 +158,11 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             global RawBingString
             global BingString
             global PrintBingString
-            BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+           # global BingContext1
+           # global BingContext2
+            BingString=BingContext1 + RawBingString + "\n" + BingContext2
             if PrintBingString:
-                print("\nBingString output:\n", BingString)
+                print("\nBing output + context:\n", BingString)
             rows.append(BingString)
 
         # Adding the user message
@@ -206,10 +210,20 @@ def bot_prefix_modifier(string):
     return string
 
 
-def choose_word(custom_word):
+def FunChooseWord(CustomWordRaw):
     global ChosenWord
-    ChosenWord = custom_word
-    return custom_word
+    ChosenWord = CustomWordRaw
+    return CustomWordRaw
+
+def Context1Func(Context1Raw):
+    global BingContext1
+    BingContext1 = Context1Raw
+    return Context1Raw
+
+def Context2Func(Context2Raw):
+    global BingContext2
+    BingContext2 = Context2Raw
+    return Context2Raw
 
 
 def ui():
@@ -225,8 +239,18 @@ def ui():
         with gr.Row():
             ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
         with gr.Row():
-            input = gr.Textbox(label='Choose Bing activation word', placeholder="Choose your word. Empty = Hey Bing")
-
+            WordOption = gr.Textbox(label='Choose Bing activation word', placeholder="Choose your word. Empty = Hey Bing")
+        with gr.Accordion("EdgeGPT context", open=False):
+            with gr.Row():
+                Context1Option = gr.Textbox(label='Choose Bing context-1', placeholder="First context, is injected before the Bing output. Empty = default context-1")
+            with gr.Row():
+                Context2Option = gr.Textbox(label='Choose Bing context-2', placeholder="Second context, is injected after the Bing output. Empty = default context-2")
+            with gr.Row():
+                gr.Markdown(
+                    """
+                    You can see the default context (with Bing output in the middle) by turning on the fourth option in "Print in console options": "Print Bing string in command console".
+                    """)
+            
     with gr.Accordion("Print in console options", open=False):
         with gr.Row():
             PrintUserInput = gr.Checkbox(value=params['PrintUserInput'], label='Print User input in command console. The user input will be fed first to Bing, and then to the default bot.')
@@ -239,7 +263,9 @@ def ui():
     
 
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
-    input.change(fn=choose_word, inputs=input)
+    WordOption.change(fn=FunChooseWord, inputs=WordOption)
+    Context1Option.change(fn=Context1Func, inputs=Context1Option)
+    Context2Option.change(fn=Context2Func, inputs=Context2Option)
 
     PrintUserInput.change(lambda x: params.update({"PrintUserInput": x}), PrintUserInput, None)
     PrintWholePrompt.change(lambda x: params.update({"PrintWholePrompt": x}), PrintWholePrompt, None)
