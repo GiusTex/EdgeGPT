@@ -53,9 +53,12 @@ python server.py --chat --extensions EdgeGPT
  ![Siri](https://user-images.githubusercontent.com/112352961/235366206-2c56e367-c09c-4367-897e-2a1d73e3abac.png)
  ![SiriExample](https://user-images.githubusercontent.com/112352961/235366218-5fc44f39-11a0-468a-bb63-7566fb327ed0.png)
 
-### New:
 - Now you can customize the context around the Bing output.
 ![Context](https://user-images.githubusercontent.com/112352961/235373510-7cdd969c-9762-4f56-8dc2-2ea0c6691fbc.png)
+
+## New:
+- Added Overwrite Activation Word, while this is turned on Bing will always answer you without the need of an activation word.
+![ActivationOptions](https://user-images.githubusercontent.com/112352961/235376642-32435472-23f1-4ee0-ac6c-e070d1867305.png)
 
 ## How does it work
 Inside the function "input_modifier" the code looks for the chosen word:
@@ -90,6 +93,9 @@ And at the end it takes RawBingString and adds it another bit of context, genera
 ```bash
 BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
 ```
+
+## Weaknesses:
+Sometimes the character ignores the Bing output, even if it is in his memory. Being still new application, you are welcome to test to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
