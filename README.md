@@ -16,19 +16,15 @@ pip install -r EdgeGPT/requirements.txt
 ```
 
 4. Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.
-![CookieEditor](https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png)
+<img src="https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png" width="1101" height="494" />
 
 5. Go to [bing.com](https://www.bing.com/) and copy the cookies in a file.
      If you can't find the extension on Microsoft Edge, follow these steps:
-     
-     ![ExportCookies](https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png)
+     <img src="https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png" width="451" height="478" />
      
       1- Click the puzzle icon;
-     
       2- Click the cookie icon;
-     
       3- Click the fifth option on top, to copy them.
-   
    Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
 
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
