@@ -9,6 +9,7 @@ from modules.text_generation import (encode, get_max_prompt_length)
 from modules.extensions import apply_extensions
 
 
+BingOutput=None
 RawBingString=None
 BingString=None
 ShowBingString=False
