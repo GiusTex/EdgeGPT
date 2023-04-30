@@ -52,6 +52,7 @@ Debug buttons
   <img src="https://user-images.githubusercontent.com/112352961/235326217-81b3e9eb-9523-4c18-94b0-f141c841ab98.png" width="663" height="472" />
   
   You can also print in the console other prompt parts (user input, whole prompt, "raw" Bing output, Bing output + custom context):
+  
 <img src="https://user-images.githubusercontent.com/112352961/235358313-776d9ffa-8c6e-4f57-ac56-ea1f557d1360.png" width="690" height="200" />
 
 Chat-mode
