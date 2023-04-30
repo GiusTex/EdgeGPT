@@ -43,23 +43,33 @@ python server.py --chat --extensions EdgeGPT
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
 
-- Keyword: Start the prompt with Hey Bing, the default keyword to activate Bing when you need, and Bing will search and give an answer, that will be fed to the 
+Keyword
+> Start the prompt with Hey Bing, the default keyword to activate Bing when you need, and Bing will search and give an answer, that will be fed to the 
   character memory before it answers you.
 ![Example1](https://user-images.githubusercontent.com/112352961/235326069-26f33ebf-8378-452f-bacf-85f192346ba2.png)
-- Debug buttons: If the bot answer doesn't suit you, you can turn on "Show Bing Output" to show the Bing output in the webui, sometimes it doesn't answer well and need better search words.
+
+Debug buttons
+ > If the bot answer doesn't suit you, you can turn on "Show Bing Output" to show the Bing output in the webui, sometimes it doesn't answer well and need better search words.
 ![Example2](https://user-images.githubusercontent.com/112352961/235326217-81b3e9eb-9523-4c18-94b0-f141c841ab98.png)
+  
   You can also print in the console other prompt parts (user input, whole prompt, "raw" Bing output, Bing output + custom context):
  ![Print](https://user-images.githubusercontent.com/112352961/235358313-776d9ffa-8c6e-4f57-ac56-ea1f557d1360.png)
- - It works with "chat, streaming, non-streaming" modes (the ones I have tested).
- - Change the Bing activation word within the webui, from EdgeGPT options (punctuation marks are not supported, they give error).
+
+Chat-mode
+> It works with "chat, streaming, non-streaming" modes (the ones I have tested).
+Change keyword
+> Change the Bing activation word within the webui, from EdgeGPT options (punctuation marks are not supported, they give error).
  ![ChooseWord](https://user-images.githubusercontent.com/112352961/235366184-f943d8a1-387c-4788-bf24-45f81a9f2a31.png)
  ![Siri](https://user-images.githubusercontent.com/112352961/235366206-2c56e367-c09c-4367-897e-2a1d73e3abac.png)
  ![SiriExample](https://user-images.githubusercontent.com/112352961/235366218-5fc44f39-11a0-468a-bb63-7566fb327ed0.png)
-- Now you can customize the context around the Bing output.
+
+Edit Bing context
+> Now you can customize the context around the Bing output.
 ![Context](https://user-images.githubusercontent.com/112352961/235373510-7cdd969c-9762-4f56-8dc2-2ea0c6691fbc.png)
 
 ## New:
-- Added Overwrite Activation Word, while this is turned on Bing will always answer you without the need of an activation word, if you don't want to mess your prompt 
+Overwrite Activation Word
+> Added Overwrite Activation Word, while this is turned on Bing will always answer you without the need of an activation word, if you don't want to mess your prompt 
   with a keyword that doesn't fit in.
 ![ActivationOptions](https://user-images.githubusercontent.com/112352961/235376642-32435472-23f1-4ee0-ac6c-e070d1867305.png)
 
