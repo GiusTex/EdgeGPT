@@ -101,6 +101,28 @@ Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 137:
             global BingString
             BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
             rows.append(BingString)
+        elif OverwriteWord:
+            async def EdgeGPT():
+                global UserInput
+                global RawBingString
+                global PrintRawBingString
+                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+                # Select only the bot response from the response dictionary
+                for message in response["item"]["messages"]:
+                    if message["author"] == "bot":
+                        bot_response = message["text"]
+                # Remove [^#^] citations in response
+                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+                await bot.close()
+                if PrintRawBingString:
+                    print("\nRawBingString output:\n", RawBingString)
+                return RawBingString
+            asyncio.run(EdgeGPT())
+            BingString=BingContext1 + RawBingString + "\n" + BingContext2
+            if PrintBingString:
+                print("\nBing output + context:\n", BingString)
+            rows.append(BingString)
 ``` 
 And at the end it takes RawBingString and adds it another bit of context, generating BingString so the bot memory has the Bing output. If you want you can also change the context around the RawBingString at line 118 inside script.py, to better suit your desidered answer.
 ```bash
