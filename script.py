@@ -17,6 +17,8 @@ PrintWholePrompt=False
 PrintRawBingString=False
 PrintBingString=False
 
+ChosenWord="Hey Bing"
+
 print("\nThanks for using the EdgeGPT extension! If you encounter any bug or you have some nice idea to add, write it on the issue page here: https://github.com/GiusTex/EdgeGPT/issues")
 
 params = {
@@ -31,13 +33,14 @@ def input_modifier(string):
     global UserInput
     global BingOutput
     global RawBingString
+    global ChosenWord
     # Reset Bing output shown in the webui
     RawBingString=None
 
     UserInput=string
     # Find out if the chosen word appears in the sentence.
     # If you want to change the chosen word, change "Hey Bing"
-    BingOutput = re.search('^Hey Bing', UserInput)
+    BingOutput = re.search(ChosenWord, UserInput)
 
     if params['ShowBingString']:
         global ShowBingString
@@ -75,7 +78,7 @@ def input_modifier(string):
     else:
         shared.processing_message = "*Is typing...*"
     return string
-
+    
 
     # Default prompt + BingString (if requested)
 def custom_generate_chat_prompt(user_input, state, **kwargs):
@@ -203,20 +206,27 @@ def bot_prefix_modifier(string):
     return string
 
 
-def ui():
+def choose_word(custom_word):
     global ChosenWord
+    ChosenWord = custom_word
+    return custom_word
+
+
+def ui():
     with gr.Accordion("Instructions", open=False):
         with gr.Box():
             gr.Markdown(
                 """
-                To use it, just start the prompt with Hey Bing; it doesn't start if you don't use uppercase and lowercase as in the example. You can change the word used by editing it inside script.py in the extension folder. If the output is strange turn on ShowBingString to see the result of Bing, maybe you need to correct your answer.
+                To use it, just start the prompt with Hey Bing; it doesn't start if you don't use uppercase and lowercase as in the example. You can change the activation word from EdgeGPT options. If the output is strange turn on Show Bing Output to see the result of Bing, maybe you need to correct your question.
                 
                 """)
             
     with gr.Accordion("EdgeGPT options", open=False):
         with gr.Row():
             ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
-        
+        with gr.Row():
+            input = gr.Textbox(label='Choose Bing activation word', placeholder="Choose your word. Empty = Hey Bing")
+
     with gr.Accordion("Print in console options", open=False):
         with gr.Row():
             PrintUserInput = gr.Checkbox(value=params['PrintUserInput'], label='Print User input in command console. The user input will be fed first to Bing, and then to the default bot.')
@@ -226,8 +236,10 @@ def ui():
             PrintRawBingString = gr.Checkbox(value=params['PrintRawBingString'], label='Print raw Bing string in command console. The raw Bing string is the clean Bing output.')
         with gr.Row():
             PrintBingString = gr.Checkbox(value=params['PrintBingString'], label='Print Bing string in command console. It is the Bing output + a bit of context, to let the default bot understand what to do with it.')
+    
 
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
+    input.change(fn=choose_word, inputs=input)
 
     PrintUserInput.change(lambda x: params.update({"PrintUserInput": x}), PrintUserInput, None)
     PrintWholePrompt.change(lambda x: params.update({"PrintWholePrompt": x}), PrintWholePrompt, None)
