@@ -48,7 +48,7 @@ python server.py --chat --extensions EdgeGPT
 - Print in the console what you need:
  ![Print](https://user-images.githubusercontent.com/112352961/235358313-776d9ffa-8c6e-4f57-ac56-ea1f557d1360.png)
  
- - Change the Bing activation word within the webui, from EdgeGPT options.
+ - Change the Bing activation word within the webui, from EdgeGPT options (punctuation marks are not supported, they give error).
  ![ChooseWord](https://user-images.githubusercontent.com/112352961/235366184-f943d8a1-387c-4788-bf24-45f81a9f2a31.png)
  ![Siri](https://user-images.githubusercontent.com/112352961/235366206-2c56e367-c09c-4367-897e-2a1d73e3abac.png)
  ![SiriExample](https://user-images.githubusercontent.com/112352961/235366218-5fc44f39-11a0-468a-bb63-7566fb327ed0.png)
