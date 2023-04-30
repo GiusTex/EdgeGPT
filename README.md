@@ -18,7 +18,7 @@ pip install -r EdgeGPT/requirements.txt
 4. Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.
 ![CookieEditor](https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png)
 
-5. Copy the cookies in a file.
+5. Go to [bing.com](bing.com) and copy the cookies in a file.
      If you can't find the extension on Microsoft Edge, follow these steps:
      ![ExportCookies](https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png)
      
