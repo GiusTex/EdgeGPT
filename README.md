@@ -57,7 +57,7 @@ python server.py --chat --extensions EdgeGPT
 ## How does it work
 Inside the function "input_modifier" the code looks for the chosen word:
 ```bash
-BingOutput = re.search('^Hey Bing', UserInput)
+BingOutput = re.search(ChosenWord, UserInput)
 ```
 Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 100:
 ```bash
