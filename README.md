@@ -95,7 +95,7 @@ BingString="Important informations:" + RawBingString + "\n" + "Now answer the fo
 ```
 
 ## Weaknesses:
-Sometimes the character ignores the Bing output, even if it is in his memory. Being still a new application, you are welcome to test to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
+Sometimes the character ignores the Bing output, even if it is in his memory. Being still a new application, you are welcome to make tests to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
