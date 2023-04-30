@@ -48,7 +48,7 @@ BingOutput = re.search('^Hey Bing', UserInput)
 ```
 - It works with "chat, streaming, non-streaming" modes (the ones I have tested).
 
-#N New:
+# New:
  - Print in the console what you need:
  ![Print](https://user-images.githubusercontent.com/112352961/235358313-776d9ffa-8c6e-4f57-ac56-ea1f557d1360.png)
 
