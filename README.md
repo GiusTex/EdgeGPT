@@ -99,7 +99,7 @@ Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 151:
             asyncio.run(EdgeGPT())
             global RawBingString
             global BingString
-            BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+            BingString=BingContext1 + RawBingString + "\n" + BingContext2
             rows.append(BingString)
         elif OverwriteWord:
             async def EdgeGPT():
