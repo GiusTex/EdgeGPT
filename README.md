@@ -64,13 +64,13 @@ Change keyword
 
 Edit Bing context
 > Now you can customize the context around the Bing output.
-![Context](https://user-images.githubusercontent.com/112352961/235373510-7cdd969c-9762-4f56-8dc2-2ea0c6691fbc.png)
+<img src="https://user-images.githubusercontent.com/112352961/235373510-7cdd969c-9762-4f56-8dc2-2ea0c6691fbc.png" width="708" height="203" />
 
 ## New:
 Overwrite Activation Word
 > Added Overwrite Activation Word, while this is turned on Bing will always answer you without the need of an activation word, if you don't want to mess your prompt 
   with a keyword that doesn't fit in.
-![ActivationOptions](https://user-images.githubusercontent.com/112352961/235376642-32435472-23f1-4ee0-ac6c-e070d1867305.png)
+<img src="https://user-images.githubusercontent.com/112352961/235376642-32435472-23f1-4ee0-ac6c-e070d1867305.png" width="710" height="157" />
 
 ## How does it work
 Inside the function "input_modifier" the code looks for the chosen word:
