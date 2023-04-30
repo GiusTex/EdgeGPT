@@ -78,7 +78,7 @@ Inside the function "input_modifier" the code looks for the chosen word:
 ```bash
 BingOutput = re.search(ChosenWord, UserInput)
 ```
-Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 137:
+Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 151:
 ```bash
         #Adding BingString
         if(BingOutput!=None) and not OverwriteWord:
