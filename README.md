@@ -1,6 +1,6 @@
 # EdgeGPT
 Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
-Now you can give Internet access to your chatbot, easily, quickly and free.
+Now you can give a sort of Internet access to your characters, easily, quickly and free.
 
 ## How to Run
 1. Clone [oobabooga's  original repository](https://github.com/oobabooga/text-generation-webui) and follow the instructions until you can chat with a chatbot.
