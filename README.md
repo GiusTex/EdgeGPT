@@ -33,6 +33,7 @@ pip install -r EdgeGPT/requirements.txt
    
    Bing is now in open preview, so no more beta access required, and the main EdgeGPT script from acheong08 now works without cookies.
    If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT` and `conda list EdgeGPT` to see if your version is >= 0.3.6.
+   Work in progress.
    
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
 ```bash
