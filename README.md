@@ -15,23 +15,23 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-4. ~Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.~
+4. Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.
 <img src="https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png" width="1101" height="494" />
 
-5. ~Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.~
-     ~If you can't find the extension on Microsoft Edge, follow these steps:~
+5. Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.
+     If you can't find the extension on Microsoft Edge, follow these steps:
 
      <img src="https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png" width="451" height="478" />
      
-      ~1- Click the puzzle icon;~
+      1- Click the puzzle icon;
       
-      ~2- Click the cookie icon;~
+      2- Click the cookie icon;
       
-      ~3- Click the fifth option on top, to copy them.~
+      3- Click the fifth option on top, to copy them.
       
-   ~Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.~
-   
-   Bing is now in open preview, so no more beta access required, and the main EdgeGPT script from acheong08 now works without cookies.
+   Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
+
+
    If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT` and `conda list EdgeGPT` to see if your version is >= 0.3.6.
    Work in progress.
    
