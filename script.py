@@ -153,7 +153,8 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 global UserInput
                 global RawBingString
                 global PrintRawBingString
-                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
+                #cookie_path='extensions/EdgeGPT/cookies.json'
+                bot = Chatbot()
                 response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
                 # Select only the bot response from the response dictionary
                 for message in response["item"]["messages"]:
