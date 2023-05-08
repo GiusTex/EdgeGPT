@@ -20,6 +20,7 @@ pip install -r EdgeGPT/requirements.txt
 
 5. Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.
      If you can't find the extension on Microsoft Edge, follow these steps:
+
      <img src="https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png" width="451" height="478" />
      
       1- Click the puzzle icon;
