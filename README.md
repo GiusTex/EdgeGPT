@@ -35,7 +35,7 @@ pip install -r EdgeGPT/requirements.txt
    
    If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT`. To see current version, type `conda list EdgeGPT`.
    
-6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
+6. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
 ```bash
 python server.py --chat --extensions EdgeGPT
 ```
