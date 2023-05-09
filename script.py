@@ -153,7 +153,6 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 global UserInput
                 global RawBingString
                 global PrintRawBingString
-
                 bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
                 response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
                 # Select only the bot response from the response dictionary
@@ -181,7 +180,6 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 global UserInput
                 global RawBingString
                 global PrintRawBingString
-  
                 bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
                 response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
                 # Select only the bot response from the response dictionary
@@ -270,7 +268,7 @@ def ui():
                 
                 """)
             
-    with gr.Accordion("EdgeGPT options", open=False):
+    with gr.Accordion("EdgeGPT options", open=True):
         with gr.Row():
             ShowBingString = gr.Checkbox(value=params['ShowBingString'], label='Show Bing Output')
         with gr.Row():
