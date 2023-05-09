@@ -31,9 +31,8 @@ pip install -r EdgeGPT/requirements.txt
       
    Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
 
-
-   If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT` and `conda list EdgeGPT` to see if your version is >= 0.3.6.
-   Work in progress.
+   How to update main EdgeGPT (the one used by this extension)
+   If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT`. To see current version, type `conda list EdgeGPT`.
    
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
 ```bash
@@ -72,7 +71,6 @@ Edit Bing context
 > Now you can customize the context around the Bing output.
 <img src="https://user-images.githubusercontent.com/112352961/235373510-7cdd969c-9762-4f56-8dc2-2ea0c6691fbc.png" width="708" height="203" />
 
-## New:
 Overwrite Activation Word
 > Added Overwrite Activation Word, while this is turned on Bing will always answer you without the need of an activation word, if you don't want to mess your prompt 
   with a keyword that doesn't fit in.
@@ -139,7 +137,6 @@ Sometimes the character ignores the Bing output, even if it is in his memory. Be
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
-I could add something but I don't know if I'll have the will; some ideas I had in mind, and they should be moderately simple, are configuring it to be usable with the oobabooga API, and activating EdgeGPT with another button, without having to write "Hey Bing", but I didn't put them because I don't know if it's worth it.
 
 ## Credits and inspiration
  - acheong08 for his amazing default [EdgeGPT](https://github.com/acheong08/EdgeGPT).
