@@ -31,7 +31,8 @@ pip install -r EdgeGPT/requirements.txt
       
    Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
 
-   How to update main EdgeGPT (the one used by this extension)
+ > 5.1 How to update main EdgeGPT (the one used by this extension)
+   
    If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT`. To see current version, type `conda list EdgeGPT`.
    
 6. Run the server with the EdgeGPT extension. If all goes well, you should see it reporting "ok"
