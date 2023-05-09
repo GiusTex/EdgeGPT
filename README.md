@@ -62,6 +62,7 @@ Debug buttons
 
 Chat-mode
 > It works with "chat, streaming, non-streaming" modes (the ones I have tested).
+
 Change keyword
 > Change the Bing activation word within the webui, from EdgeGPT options (punctuation marks are not supported, they give error).
  <img src="https://user-images.githubusercontent.com/112352961/235366184-f943d8a1-387c-4788-bf24-45f81a9f2a31.png" width="655" height="156" />
