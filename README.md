@@ -15,27 +15,33 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-4. Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.
+4. ~Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.~
 <img src="https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png" width="1101" height="494" />
 
-5. Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.
-     If you can't find the extension on Microsoft Edge, follow these steps:
+5. ~Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.~
+     ~If you can't find the extension on Microsoft Edge, follow these steps:~
 
      <img src="https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png" width="451" height="478" />
      
-      1- Click the puzzle icon;
+      ~1- Click the puzzle icon;~
       
-      2- Click the cookie icon;
+      ~2- Click the cookie icon;~
       
-      3- Click the fifth option on top, to copy them.
+      ~3- Click the fifth option on top, to copy them.~
       
-   Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and    press enter.
+   ~Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and press enter.~
 
- > 5.1 How to update main EdgeGPT (the one used by this extension)
+6. How to update EdgeGPT (cookies no longer required)
+
+   a) Make a new clean install. I don't know the exact old file to delete, so I removed the majority of them: go to `TextGenerationWebui\installer_files\env\Lib\site-packages` and delete `EdgeGPT-
+      your.version.number.dist-info`, then scroll down and delete `EdgeGPT.py`.
+      Now just in case go to `TextGenerationWebui\text-generation-webui\extensions\EdgeGPT` and delete the `__pycache__` folder.
    
-   If you have an old version, or you want to update the main script, open cmd_windows.bat, and run `pip install EdgeGPT`. To see current version, type `conda list EdgeGPT`.
+   b) Install again EdgeGPT: open cmd_windows.bat and type `pip install EdgeGPT` or `pip install EdgeGPT==0.6.1` or `pip install EdgeGPT==your.desired.version`.
+      
+      If you want you can check the installed version: `conda list EdgeGPT`.
    
-6. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
+7. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
 ```bash
 python server.py --chat --extensions EdgeGPT
 ```
@@ -46,6 +52,8 @@ python server.py --chat --extensions EdgeGPT
 - 5 debug buttons to show or print different parts of the prompt
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
+- Bing conversation style (creative,balanced,precise)
+- Colab merge
 
 Keyword
 > Start the prompt with Hey Bing, the default keyword to activate Bing when you need, and Bing will search and give an answer, that will be fed to the 
@@ -78,61 +86,49 @@ Overwrite Activation Word
   with a keyword that doesn't fit in.
 <img src="https://user-images.githubusercontent.com/112352961/235376642-32435472-23f1-4ee0-ac6c-e070d1867305.png" width="710" height="157" />
 
+Bing conversation style
+> For now, inside `conversation_style=ConversationStyle.creative` at line 160, you have to change `creative` with `creative` or `balanced` or `precise` manually.
+
+Colab
+> I don't know how much it's ok, but ImaBlank2 created a working [merge](https://github.com/GiusTex/EdgeGPT/issues/10#issuecomment-1547672133) for colab. He merged kwisss's version of EdgeGPT with mine, this is the file: [Colab_Old_EdgeGPT.zip](https://github.com/GiusTex/EdgeGPT/files/11524901/Colab_Old_EdgeGPT.zip). This is an unofficial merge of different repositories so I won't update it nor help if there are problems.
+
 ## How does it work
 Inside the function "input_modifier" the code looks for the chosen word:
 ```bash
 BingOutput = re.search(ChosenWord, UserInput)
 ```
-Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 151:
+Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 172 and then it calls the function:
 ```bash
         #Adding BingString
-        if(BingOutput!=None) and not OverwriteWord:
-            async def EdgeGPT():
-                global UserInput
-                global RawBingString
-                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
-                # Select only the bot response from the response dictionary
-                for message in response["item"]["messages"]:
-                    if message["author"] == "bot":
-                        bot_response = message["text"]
-                # Remove [^#^] citations in response
-                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
-                await bot.close()
-                #print("\nBingString output:\n", RawBingString)
-                return RawBingString
-            asyncio.run(EdgeGPT())
+        async def EdgeGPT():
+            global UserInput
             global RawBingString
-            global BingString
-            BingString=BingContext1 + RawBingString + "\n" + BingContext2
-            rows.append(BingString)
-        elif OverwriteWord:
-            async def EdgeGPT():
-                global UserInput
-                global RawBingString
-                global PrintRawBingString
-                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
-                # Select only the bot response from the response dictionary
-                for message in response["item"]["messages"]:
-                    if message["author"] == "bot":
-                        bot_response = message["text"]
-                # Remove [^#^] citations in response
-                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
-                await bot.close()
-                if PrintRawBingString:
-                    print("\nRawBingString output:\n", RawBingString)
-                return RawBingString
+            global PrintRawBingString
+            bot = await Chatbot.create()
+            response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+            # Select only the bot response from the response dictionary
+            for message in response["item"]["messages"]:
+                if message["author"] == "bot":
+                    bot_response = message["text"]
+            # Remove [^#^] citations in response
+            RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+            await bot.close()
+            return RawBingString
+            
+        # Different ways to run the same EdgeGPT function:
+        # From chosen word
+        if(BingOutput!=None) and not OverwriteWord:
             asyncio.run(EdgeGPT())
-            BingString=BingContext1 + RawBingString + "\n" + BingContext2
-            if PrintBingString:
-                print("\nBing output + context:\n", BingString)
+        # of from OverwriteWord button
+        elif OverwriteWord:
+            asyncio.run(EdgeGPT())
+            
+        # When Bing has given his answer we print (if requested) and save the output
+        if RawBingString != None and not "":
+            # Add Bing output to character memory
             rows.append(BingString)
 ``` 
-And at the end it takes RawBingString and adds it another bit of context, generating BingString so the bot memory has the Bing output. If you want you can also change the context around the RawBingString at line 118 inside script.py, to better suit your desidered answer.
-```bash
-BingString="Important informations:" + RawBingString + "\n" + "Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
-```
+And at the end it takes RawBingString and adds it Bing context (useful to tell the character what to do with the informations), generating BingString. If you want you can also change the context around the RawBingString from the webui within EdgeGPT options > EdgeGPT context, to better suit your desidered answer.
 
 ## Weaknesses:
 Sometimes the character ignores the Bing output, even if it is in his memory. Being still a new application, you are welcome to make tests to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
