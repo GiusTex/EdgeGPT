@@ -3,9 +3,12 @@ import asyncio
 import modules.shared as shared
 import gradio as gr
 
+import extensions
+from modules import chat
+
 from EdgeGPT import Chatbot, ConversationStyle
 from modules.chat import replace_all
-from modules.text_generation import (encode, get_max_prompt_length)
+from modules.text_generation import (encode, get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
 
 
@@ -31,7 +34,7 @@ params = {
     'PrintUserInput': False,
     'PrintWholePrompt': False,
     'PrintRawBingString': False,
-    'PrintBingString': False
+    'PrintBingString': False,
 }
 
 def input_modifier(string):
@@ -44,7 +47,6 @@ def input_modifier(string):
 
     UserInput=string
     # Find out if the chosen word appears in the sentence.
-    # If you want to change the chosen word, change "Hey Bing"
     BingOutput = re.search(ChosenWord, UserInput)
 
     if params['ShowBingString']:
@@ -93,7 +95,7 @@ def input_modifier(string):
     return string
     
 
-    # Default prompt + BingString (if requested)
+    # Prompt + BingString (if requested)
 def custom_generate_chat_prompt(user_input, state, **kwargs):
     impersonate = kwargs['impersonate'] if 'impersonate' in kwargs else False
     _continue = kwargs['_continue'] if '_continue' in kwargs else False
@@ -130,7 +132,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
 
     # Building the prompt
     i = len(shared.history['internal']) - 1
-    while i >= 0 and len(encode(''.join(rows))[0]) < max_length:
+    while i >= 0 and get_encoded_length(''.join(rows)) < max_length:
         if _continue and i == len(shared.history['internal']) - 1:
             rows.insert(1, bot_turn_stripped + shared.history['internal'][i][1].strip())
         else:
@@ -148,55 +150,39 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     elif not _continue:
 
         #Adding BingString
-        if(BingOutput!=None) and not OverwriteWord:
-            async def EdgeGPT():
-                global UserInput
-                global RawBingString
-                global PrintRawBingString
-                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
-                # Select only the bot response from the response dictionary
-                for message in response["item"]["messages"]:
-                    if message["author"] == "bot":
-                        bot_response = message["text"]
-                # Remove [^#^] citations in response
-                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
-                await bot.close()
-                if PrintRawBingString:
-                    print("\nRawBingString output:\n", RawBingString)
-                return RawBingString
-            asyncio.run(EdgeGPT())
+        async def EdgeGPT():
+            global UserInput
             global RawBingString
-            global BingString
-            global PrintBingString
-           # global BingContext1
-           # global BingContext2
-            BingString=BingContext1 + RawBingString + "\n" + BingContext2
-            if PrintBingString:
-                print("\nBing output + context:\n", BingString)
-            rows.append(BingString)
-        elif OverwriteWord:
-            async def EdgeGPT():
-                global UserInput
-                global RawBingString
-                global PrintRawBingString
-                bot = Chatbot(cookie_path='extensions/EdgeGPT/cookies.json')
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
-                # Select only the bot response from the response dictionary
-                for message in response["item"]["messages"]:
-                    if message["author"] == "bot":
-                        bot_response = message["text"]
-                # Remove [^#^] citations in response
-                RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
-                await bot.close()
-                if PrintRawBingString:
-                    print("\nRawBingString output:\n", RawBingString)
-                return RawBingString
+            global PrintRawBingString
+            bot = await Chatbot.create()
+            response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+            # Select only the bot response from the response dictionary
+            for message in response["item"]["messages"]:
+                if message["author"] == "bot":
+                    bot_response = message["text"]
+            # Remove [^#^] citations in response
+            RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+            await bot.close()
+            return RawBingString
+        
+        # Different ways to run the same EdgeGPT function:
+        # From chosen word
+        if(BingOutput!=None) and not OverwriteWord:
             asyncio.run(EdgeGPT())
+        # of from OverwriteWord button
+        elif OverwriteWord:
+            asyncio.run(EdgeGPT())
+        # When Bing has given his answer we print (if requested) and save 
+        # the output
+        if RawBingString != None and not "":
+            if PrintRawBingString:
+                print("\nBing output:\n", RawBingString)
             BingString=BingContext1 + RawBingString + "\n" + BingContext2
             if PrintBingString:
                 print("\nBing output + context:\n", BingString)
+            # Add Bing output to character memory
             rows.append(BingString)
+
 
         # Adding the user message
         if len(user_input) > 0:
@@ -204,20 +190,16 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
 
         # Adding the Character prefix
         rows.append(apply_extensions("bot_prefix", bot_turn_stripped.rstrip(' ')))
-
-    while len(rows) > min_rows and len(encode(''.join(rows))[0]) >= max_length:
+    
+    while len(rows) > min_rows and get_encoded_length(''.join(rows)) >= max_length:
         rows.pop(1)
 
     prompt = ''.join(rows)
     if also_return_rows:
-        if PrintWholePrompt:
-            print("Prompt:\n", prompt)
         return prompt, rows
     else:
-        if PrintWholePrompt:
-            print("Prompt:\n", prompt)
         return prompt
-    
+
 
 def output_modifier(string):
     """
@@ -274,6 +256,8 @@ def ui():
         with gr.Row():
             WordOption = gr.Textbox(label='Choose and use a word to activate Bing', placeholder="Choose your word. Empty = Hey Bing")
             OverwriteWord = gr.Checkbox(value=params['OverwriteWord'], label='Overwrite Activation Word. Bing will always search, ignoring the activation word.')
+      #  with gr.Row():
+      #      BingStyle = gr.Dropdown(value=params['conversation_styles'], choices=conversation_styles, label='Bing Style')
         with gr.Accordion("EdgeGPT context", open=False):
             with gr.Row():
                 Context1Option = gr.Textbox(label='Choose Bing context-1', placeholder="First context, is injected before the Bing output. Empty = default context-1")
@@ -291,9 +275,9 @@ def ui():
         with gr.Row():
             PrintWholePrompt = gr.Checkbox(value=params['PrintWholePrompt'], label='Print whole prompt in command console. Prompt has: context, Bing search output, and user input.')
         with gr.Row():
-            PrintRawBingString = gr.Checkbox(value=params['PrintRawBingString'], label='Print raw Bing string in command console. The raw Bing string is the clean Bing output.')
+            PrintRawBingString = gr.Checkbox(value=params['PrintRawBingString'], label='Print Bing output in command console.')
         with gr.Row():
-            PrintBingString = gr.Checkbox(value=params['PrintBingString'], label='Print Bing string in command console. It is the Bing output + a bit of context, to let the default bot understand what to do with it.')
+            PrintBingString = gr.Checkbox(value=params['PrintBingString'], label='Print Bing output + Bing context in command console.')
     
 
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
