@@ -139,3 +139,4 @@ Pull requests, suggestions and bug reports are welcome, but as I'm not a program
 ## Credits and inspiration
  - acheong08 for his amazing default [EdgeGPT](https://github.com/acheong08/EdgeGPT).
  - The tutorial video by [Ai Austin](https://youtu.be/aokn48vB0kc), where he shows the code to install EdgeGPT and use it, and gave me a bit of inspiration.
+ - You.
