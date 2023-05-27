@@ -15,23 +15,7 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-4. ~Install [Cookie Editor](https://microsoftedge.microsoft.com/addons/detail/cookie-editor/ajfboaconbpkglpfanbmlfgojgndmhmc) for Microsoft Edge.~
-<img src="https://user-images.githubusercontent.com/112352961/235325561-9c85c199-8e50-484f-ac64-a25928de7281.png" width="1101" height="494" />
-
-5. ~Go to [bing.com](https://www.bing.com/), login to your microsoft account and copy the cookies in a file.~
-     ~If you can't find the extension on Microsoft Edge, follow these steps:~
-
-     <img src="https://user-images.githubusercontent.com/112352961/235325568-61ad404c-d8d7-46f5-833d-7aee2b3c9d44.png" width="451" height="478" />
-     
-      ~1- Click the puzzle icon;~
-      
-      ~2- Click the cookie icon;~
-      
-      ~3- Click the fifth option on top, to copy them.~
-      
-   ~Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in cookies.txt, then rename it to cookies.json and press enter.~
-
-6. How to update EdgeGPT (cookies no longer required)
+3,5. How to update EdgeGPT. Optional. (cookies no longer required)
 
    a) Make a new clean install. I don't know the exact old file to delete, so I removed the majority of them: go to `TextGenerationWebui\installer_files\env\Lib\site-packages` and delete `EdgeGPT-
       your.version.number.dist-info`, then scroll down and delete `EdgeGPT.py`.
@@ -39,9 +23,9 @@ pip install -r EdgeGPT/requirements.txt
    
    b) Install again EdgeGPT: open cmd_windows.bat and type `pip install EdgeGPT` or `pip install EdgeGPT==0.6.1` or `pip install EdgeGPT==your.desired.version`.
       
-      If you want you can check the installed version: `conda list EdgeGPT`.
+   If you want you can check the installed version: `conda list EdgeGPT`.
    
-7. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
+4. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
 ```bash
 python server.py --chat --extensions EdgeGPT
 ```
@@ -131,7 +115,9 @@ Then, if it finds it, it adds it to "custom_generate_chat_prompt" at line 172 an
 And at the end it takes RawBingString and adds it Bing context (useful to tell the character what to do with the informations), generating BingString. If you want you can also change the context around the RawBingString from the webui within EdgeGPT options > EdgeGPT context, to better suit your desidered answer.
 
 ## Weaknesses:
-Sometimes the character ignores the Bing output, even if it is in his memory. Being still a new application, you are welcome to make tests to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
+Being still a new application, you are welcome to make tests to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
+- Sometimes the character ignores the Bing output, even if it is in his memory, in this case asking "Can you repeat me [whatever you asked]" may help.
+- The character could start his answer with ":", but after some messages it goes away.
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
