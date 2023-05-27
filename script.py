@@ -121,8 +121,8 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         template = state['turn_template'].replace(r'\n', '\n')
 
     replacements = {
-        '<|user|>': state['name1'].strip(),
-        '<|bot|>': state['name2'].strip(),
+        '<|user|>:': state['name1'].strip(),
+        '<|bot|>:': state['name2'].strip(),
     }
 
     user_turn = replace_all(template.split('<|bot|>')[0], replacements)
