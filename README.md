@@ -15,7 +15,7 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-3,5. How to update EdgeGPT. Optional. (cookies no longer required)
+### 3,5. How to update EdgeGPT. (cookies no longer required)
 
    a) Make a new clean install. I don't know the exact old file to delete, so I removed the majority of them: go to `TextGenerationWebui\installer_files\env\Lib\site-packages` and delete `EdgeGPT-
       your.version.number.dist-info`, then scroll down and delete `EdgeGPT.py`.
@@ -53,7 +53,7 @@ Debug buttons
 <img src="https://user-images.githubusercontent.com/112352961/235358313-776d9ffa-8c6e-4f57-ac56-ea1f557d1360.png" width="690" height="200" />
 
 Chat-mode
-> It works with "chat, streaming, non-streaming" modes (the ones I have tested).
+> It works with "chat, streaming, non-streaming" modes (the ones I have tested). There are issues when using `--listen`.
 
 Change keyword
 > Change the Bing activation word within the webui, from EdgeGPT options (punctuation marks are not supported, they give error).
