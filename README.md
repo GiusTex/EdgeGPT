@@ -76,7 +76,7 @@ Bing conversation style
 Colab
 > I don't know how much it's ok, but ImaBlank2 created a working [merge](https://github.com/GiusTex/EdgeGPT/issues/10#issuecomment-1547672133) for colab. He merged kwisss's version of EdgeGPT with mine, this is the file: [Colab_Old_EdgeGPT.zip](https://github.com/GiusTex/EdgeGPT/files/11524901/Colab_Old_EdgeGPT.zip). This is an unofficial merge of different repositories so I won't update it nor help if there are problems.
 
-## How does it work
+## How it works
 Inside the function "input_modifier" the code looks for the chosen word:
 ```bash
 BingOutput = re.search(ChosenWord, UserInput)
