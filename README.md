@@ -37,7 +37,7 @@ python server.py --chat --extensions EdgeGPT
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
 - Bing conversation style (creative,balanced,precise)
-- It works on Colab now, without cookies. I uploaded a colab you can test
+- It works on Colab now, without cookies. I uploaded a colab you can test, scroll down to open it
 
 Keyword
 > Start the prompt with Hey Bing, the default keyword to activate Bing when you need, and Bing will search and give an answer, that will be fed to the 
