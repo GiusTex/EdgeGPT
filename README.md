@@ -37,7 +37,7 @@ python server.py --chat --extensions EdgeGPT
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
 - Bing conversation style (creative,balanced,precise)
-- It works on Colab now, without cookies
+- It works on Colab now, without cookies. I uploaded a colab you can test
 
 Keyword
 > Start the prompt with Hey Bing, the default keyword to activate Bing when you need, and Bing will search and give an answer, that will be fed to the 
@@ -74,7 +74,7 @@ Bing conversation style
 > For now, inside `conversation_style=ConversationStyle.creative` at line 160, you have to change `creative` with `creative` or `balanced` or `precise` manually.
 
 Colab
-> Now without cookies it works also on colab.
+> I merged and created a colab version of the text-generation-webui where you can use the new EdgeGPT (it works on Colab without cookies), and use different models and extensions: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GiusTex/EdgeGPT/blob/main/Text-generation-webui-EdgeGPT.ipynb)
 
 ## How it works
 Inside the function "input_modifier" the code looks for the chosen word:
