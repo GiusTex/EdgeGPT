@@ -78,7 +78,7 @@ python server.py --chat --extensions EdgeGPT
 > I merged and created a colab version of the text-generation-webui where you can use the new EdgeGPT (it works on Colab without cookies), and use different models and extensions: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GiusTex/EdgeGPT/blob/main/Text-generation-webui-EdgeGPT.ipynb)
 
 #### Cookies
-> Since many people had login issues, now there is an option to use cookies, you can turn them on from EdgeGPT options. To use them follow the instructions here.
+> Since many people had login issues, now there is an option to use cookies, you can turn them on from EdgeGPT options. To use them follow the instructions [here](how-to-use-cookies.md).
 
 ## How it works
 Inside the function "input_modifier" the code looks for the chosen word:
