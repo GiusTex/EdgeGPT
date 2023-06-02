@@ -299,7 +299,7 @@ def ui():
             WordOption = gr.Textbox(label='Choose and use a word to activate Bing', placeholder="Choose your word. Empty = Hey Bing")
             OverwriteWord = gr.Checkbox(value=params['OverwriteWord'], label='Overwrite Activation Word. Bing will always search, ignoring the activation word.')
         with gr.Row():
-            UseCookies = gr.Checkbox(value=params['UseCookies'], label='Use cookies. If you have login problems turn this on to use cookies (you need cookies.json). Instructions here: link')
+            UseCookies = gr.Checkbox(value=params['UseCookies'], label='Use cookies. If you have login problems turn this on to use cookies (you need cookies.json). Instructions here: https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md')
         with gr.Row():
             ConversationStyleOption = gr.Textbox(label='Choose Bing Conversation Style', placeholder="Supported Conversation Styles: creative, balanced, precise. Empty = default creative")
 
