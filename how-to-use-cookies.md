@@ -18,3 +18,5 @@
 
 3. In the webui, in EdgeGPT options, turn on "Use cookies".
    ![image](https://github.com/GiusTex/EdgeGPT/assets/112352961/f230a03c-92d4-4ee5-9315-20109f791ff9)
+
+If you use the cookies and after some time you get the login error, it may be because the cookies have to be updated.
