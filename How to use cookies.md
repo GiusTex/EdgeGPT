@@ -15,3 +15,6 @@
       3- Click the fifth option on top, to copy them.
 
    Now that you have copied them, go inside text-generation-webui\extensions\EdgeGPT and paste the cookies settings in a txt file, then rename it to cookies.json and press enter.
+
+3. In the webui, in EdgeGPT options, turn on "Use cookies".
+   ![image](https://github.com/GiusTex/EdgeGPT/assets/112352961/f230a03c-92d4-4ee5-9315-20109f791ff9)
