@@ -1,14 +1,12 @@
 import re
 import asyncio
+import json
 import modules.shared as shared
 import gradio as gr
 
-import extensions
-from modules import chat
-
 from EdgeGPT import Chatbot, ConversationStyle
-from modules.chat import replace_all
-from modules.text_generation import (encode, get_max_prompt_length, get_encoded_length)
+from modules.chat import replace_all, get_turn_substrings
+from modules.text_generation import (get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
 
 
@@ -21,10 +19,12 @@ PrintUserInput=False
 PrintWholePrompt=False
 PrintRawBingString=False
 PrintBingString=False
+UseCookies=False
 
+BingConversationStyle="creative"
 ChosenWord="Hey Bing"
-BingContext1="Important informations:"
-BingContext2="Now answer the following question based on the given informations. If my sentence starts with \"Hey Bing\" ignore that part, I'm referring to you anyway, so don't say you are Bing.\n"
+BingContext1="Important informations: "
+BingContext2="Now answer the following question based on the given informations. If I say \"Hey Bing\" I am referring to you anyway. Do not say you are Bing.\n"
 
 print("\nThanks for using the EdgeGPT extension! If you encounter any bug or you have some nice idea to add, write it on the issue page here: https://github.com/GiusTex/EdgeGPT/issues")
 
@@ -35,6 +35,7 @@ params = {
     'PrintWholePrompt': False,
     'PrintRawBingString': False,
     'PrintBingString': False,
+    'UseCookies': False,
 }
 
 def input_modifier(string):
@@ -86,6 +87,12 @@ def input_modifier(string):
     else:
         PrintBingString=False
 
+    if params['PrintBingString']:
+        global UseCookies
+        UseCookies=True
+    else:
+        UseCookies=False
+
     if(BingOutput!=None) and not OverwriteWord:
         shared.processing_message = "*Is searching...*"
     elif OverwriteWord:
@@ -100,9 +107,9 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     impersonate = kwargs['impersonate'] if 'impersonate' in kwargs else False
     _continue = kwargs['_continue'] if '_continue' in kwargs else False
     also_return_rows = kwargs['also_return_rows'] if 'also_return_rows' in kwargs else False
+    history = kwargs.get('history', shared.history)['internal']
     is_instruct = state['mode'] == 'instruct'
     rows = [state['context'] if is_instruct else f"{state['context'].strip()}\n"]
-    min_rows = 3
 
     # Finding the maximum prompt size
     chat_prompt_size = state['chat_prompt_size']
@@ -110,43 +117,53 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         chat_prompt_size -= shared.soft_prompt_tensor.shape[1]
 
     max_length = min(get_max_prompt_length(state), chat_prompt_size)
-
-    # Building the turn templates
-    if 'turn_template' not in state or state['turn_template'] == '':
-        if is_instruct:
-            template = '<|user|>\n<|user-message|>\n<|bot|>\n<|bot-message|>\n'
-        else:
-            template = '<|user|>: <|user-message|>\n<|bot|>: <|bot-message|>\n'
-    else:
-        template = state['turn_template'].replace(r'\n', '\n')
-
-    replacements = {
-        '<|user|>:': state['name1'].strip(),
-        '<|bot|>:': state['name2'].strip(),
+    all_substrings = {
+        'chat': get_turn_substrings(state, instruct=False),
+        'instruct': get_turn_substrings(state, instruct=True)
     }
-
-    user_turn = replace_all(template.split('<|bot|>')[0], replacements)
-    bot_turn = replace_all('<|bot|>' + template.split('<|bot|>')[1], replacements)
-    user_turn_stripped = replace_all(user_turn.split('<|user-message|>')[0], replacements)
-    bot_turn_stripped = replace_all(bot_turn.split('<|bot-message|>')[0], replacements)
+    
+    substrings = all_substrings['instruct' if is_instruct else 'chat']
+    
+    # Create the template for "chat-instruct" mode
+    if state['mode'] == 'chat-instruct':
+        wrapper = ''
+        command = state['chat-instruct_command'].replace('<|character|>', state['name2'] if not impersonate else state['name1'])
+        wrapper += state['context_instruct']
+        wrapper += all_substrings['instruct']['user_turn'].replace('<|user-message|>', command)
+        wrapper += all_substrings['instruct']['bot_turn_stripped']
+        if impersonate:
+            wrapper += substrings['user_turn_stripped'].rstrip(' ')
+        elif _continue:
+            wrapper += apply_extensions("bot_prefix", substrings['bot_turn_stripped'])
+            wrapper += history[-1][1]
+        else:
+            wrapper += apply_extensions("bot_prefix", substrings['bot_turn_stripped'].rstrip(' '))
+    else:
+        wrapper = '<|prompt|>'
 
     # Building the prompt
-    i = len(shared.history['internal']) - 1
-    while i >= 0 and get_encoded_length(''.join(rows)) < max_length:
-        if _continue and i == len(shared.history['internal']) - 1:
-            rows.insert(1, bot_turn_stripped + shared.history['internal'][i][1].strip())
+    min_rows = 3
+    i = len(history) - 1
+    rows = [state['context_instruct'] if is_instruct else f"{state['context'].strip()}\n"]
+    while i >= 0 and get_encoded_length(wrapper.replace('<|prompt|>', ''.join(rows))) < max_length:
+        if _continue and i == len(history) - 1:
+            if state['mode'] != 'chat-instruct':
+                rows.insert(1, substrings['bot_turn_stripped'] + history[i][1].strip())
         else:
-            rows.insert(1, bot_turn.replace('<|bot-message|>', shared.history['internal'][i][1].strip()))
+            rows.insert(1, substrings['bot_turn'].replace('<|bot-message|>', history[i][1].strip()))
 
-        string = shared.history['internal'][i][0]
+        string = history[i][0]
         if string not in ['', '<|BEGIN-VISIBLE-CHAT|>']:
-            rows.insert(1, replace_all(user_turn, {'<|user-message|>': string.strip(), '<|round|>': str(i)}))
+            rows.insert(1, replace_all(substrings['user_turn'], {'<|user-message|>': string.strip(), '<|round|>': str(i)}))
 
         i -= 1
 
     if impersonate:
-        min_rows = 2
-        rows.append(user_turn_stripped.rstrip(' '))
+        if state['mode'] == 'chat-instruct':
+            min_rows = 1
+        else:
+            min_rows = 2
+            rows.append(substrings['user_turn_stripped'].rstrip(' '))
     elif not _continue:
 
         #Adding BingString
@@ -154,8 +171,24 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             global UserInput
             global RawBingString
             global PrintRawBingString
-            bot = await Chatbot.create()
-            response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+            global UseCookies
+            
+            if UseCookies:
+                cookies = json.loads(open("./extensions/EdgeGPT/cookies.json", encoding="utf-8").read())
+                bot = await Chatbot.create(cookies=cookies)
+            else:
+                bot = await Chatbot.create()
+            
+            if BingConversationStyle=="creative":
+                #print("Using creative mode")
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+            elif BingConversationStyle=="balanced":
+                #print("Using balanced mode")
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.balanced)
+            elif BingConversationStyle=="precise":
+                #print("Using precise mode")
+                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.precise)
+
             # Select only the bot response from the response dictionary
             for message in response["item"]["messages"]:
                 if message["author"] == "bot":
@@ -174,27 +207,32 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             asyncio.run(EdgeGPT())
         # When Bing has given his answer we print (if requested) and save 
         # the output
-        if RawBingString != None and not "":
+        if RawBingString != None and not "" or OverwriteWord==True:
+            BingString=BingContext1 + RawBingString + "\n" + BingContext2
+            if PrintUserInput:
+                print("\nUser input:\n", UserInput)
             if PrintRawBingString:
                 print("\nBing output:\n", RawBingString)
-            BingString=BingContext1 + RawBingString + "\n" + BingContext2
             if PrintBingString:
-                print("\nBing output + context:\n", BingString)
+                print("\nBing context + Bing output:\n", BingString)
             # Add Bing output to character memory
             rows.append(BingString)
 
-
         # Adding the user message
         if len(user_input) > 0:
-            rows.append(replace_all(user_turn, {'<|user-message|>': user_input.strip(), '<|round|>': str(len(shared.history["internal"]))}))
+            rows.append(replace_all(substrings['user_turn'], {'<|user-message|>': user_input.strip(), '<|round|>': str(len(history))}))
 
-        # Adding the Character prefix
-        rows.append(apply_extensions("bot_prefix", bot_turn_stripped.rstrip(' ')))
+        # Add the character prefix
+        if state['mode'] != 'chat-instruct':
+            rows.append(apply_extensions("bot_prefix", substrings['bot_turn_stripped'].rstrip(' ')))
     
-    while len(rows) > min_rows and get_encoded_length(''.join(rows)) >= max_length:
+    while len(rows) > min_rows and get_encoded_length(wrapper.replace('<|prompt|>', ''.join(rows))) >= max_length:
         rows.pop(1)
 
-    prompt = ''.join(rows)
+    prompt = wrapper.replace('<|prompt|>', ''.join(rows))
+    if RawBingString != None and not "" or OverwriteWord==True:
+            if PrintWholePrompt:
+                print("\nWhole prompt:\n", prompt + "\n")
     if also_return_rows:
         return prompt, rows
     else:
@@ -240,6 +278,10 @@ def Context2Func(Context2Raw):
     BingContext2 = Context2Raw
     return Context2Raw
 
+def ConversationStyleFunc(ConversationStyleRaw):
+    global BingConversationStyle
+    BingConversationStyle = ConversationStyleRaw
+    return ConversationStyleRaw
 
 def ui():
     with gr.Accordion("Instructions", open=False):
@@ -256,8 +298,11 @@ def ui():
         with gr.Row():
             WordOption = gr.Textbox(label='Choose and use a word to activate Bing', placeholder="Choose your word. Empty = Hey Bing")
             OverwriteWord = gr.Checkbox(value=params['OverwriteWord'], label='Overwrite Activation Word. Bing will always search, ignoring the activation word.')
-      #  with gr.Row():
-      #      BingStyle = gr.Dropdown(value=params['conversation_styles'], choices=conversation_styles, label='Bing Style')
+        with gr.Row():
+            UseCookies = gr.Checkbox(value=params['UseCookies'], label='Use cookies. If you have login problems turn this on to use cookies (you need cookies.json). Instructions here: link')
+        with gr.Row():
+            ConversationStyleOption = gr.Textbox(label='Choose Bing Conversation Style', placeholder="Supported Conversation Styles: creative, balanced, precise. Empty = default creative")
+
         with gr.Accordion("EdgeGPT context", open=False):
             with gr.Row():
                 Context1Option = gr.Textbox(label='Choose Bing context-1', placeholder="First context, is injected before the Bing output. Empty = default context-1")
@@ -283,7 +328,9 @@ def ui():
     ShowBingString.change(lambda x: params.update({"ShowBingString": x}), ShowBingString, None)
     WordOption.change(fn=FunChooseWord, inputs=WordOption)
     OverwriteWord.change(lambda x: params.update({"OverwriteWord": x}), OverwriteWord, None)
-    
+    UseCookies.change(lambda x: params.update({"UseCookies": x}), UseCookies, None)
+    ConversationStyleOption.change(fn=ConversationStyleFunc, inputs=ConversationStyleOption)
+
     Context1Option.change(fn=Context1Func, inputs=Context1Option)
     Context2Option.change(fn=Context2Func, inputs=Context2Option)
 
