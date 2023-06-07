@@ -104,26 +104,21 @@ def input_modifier(string):
 
     # Prompt + BingString (if requested)
 def custom_generate_chat_prompt(user_input, state, **kwargs):
-    impersonate = kwargs['impersonate'] if 'impersonate' in kwargs else False
-    _continue = kwargs['_continue'] if '_continue' in kwargs else False
-    also_return_rows = kwargs['also_return_rows'] if 'also_return_rows' in kwargs else False
+    impersonate = kwargs.get('impersonate', False)
+    _continue = kwargs.get('_continue', False)
+    also_return_rows = kwargs.get('also_return_rows', False)
     history = kwargs.get('history', shared.history)['internal']
     is_instruct = state['mode'] == 'instruct'
-    rows = [state['context'] if is_instruct else f"{state['context'].strip()}\n"]
 
     # Finding the maximum prompt size
-    chat_prompt_size = state['chat_prompt_size']
-    if shared.soft_prompt:
-        chat_prompt_size -= shared.soft_prompt_tensor.shape[1]
-
-    max_length = min(get_max_prompt_length(state), chat_prompt_size)
+    max_length = min(get_max_prompt_length(state), state['chat_prompt_size'])
     all_substrings = {
         'chat': get_turn_substrings(state, instruct=False),
         'instruct': get_turn_substrings(state, instruct=True)
     }
-    
+
     substrings = all_substrings['instruct' if is_instruct else 'chat']
-    
+        
     # Create the template for "chat-instruct" mode
     if state['mode'] == 'chat-instruct':
         wrapper = ''
@@ -141,7 +136,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     else:
         wrapper = '<|prompt|>'
 
-    # Building the prompt
+    # Build the prompt
     min_rows = 3
     i = len(history) - 1
     rows = [state['context_instruct'] if is_instruct else f"{state['context'].strip()}\n"]
@@ -225,7 +220,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         # Add the character prefix
         if state['mode'] != 'chat-instruct':
             rows.append(apply_extensions("bot_prefix", substrings['bot_turn_stripped'].rstrip(' ')))
-    
+
     while len(rows) > min_rows and get_encoded_length(wrapper.replace('<|prompt|>', ''.join(rows))) >= max_length:
         rows.pop(1)
 
