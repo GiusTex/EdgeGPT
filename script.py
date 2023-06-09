@@ -108,7 +108,7 @@ def input_modifier(string):
     else:
         PrintBingString=False
 
-    if params['PrintBingString']:
+    if params['UseCookies']:
         global UseCookies
         UseCookies=True
     else:
