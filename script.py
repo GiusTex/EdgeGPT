@@ -4,7 +4,7 @@ import json
 import modules.shared as shared
 import gradio as gr
 
-from EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 from modules.chat import replace_all, get_turn_substrings
 from modules.text_generation import (get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
@@ -187,7 +187,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             # Select only the bot response from the response dictionary
             for message in response["item"]["messages"]:
                 if message["author"] == "bot":
-                    bot_response = message["text"]
+                    bot_response = message["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
             # Remove [^#^] citations in response
             RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
             await bot.close()
