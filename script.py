@@ -185,9 +185,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.precise)
 
             # Select only the bot response from the response dictionary
-            for message in response["item"]["messages"]:
-                if message["author"] == "bot":
-                    bot_response = message["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
+            bot_response = response["item"]["messages"][1]["adaptiveCards"][0]["body"][0]["text"]
             # Remove [^#^] citations in response
             RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
             await bot.close()
