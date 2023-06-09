@@ -187,9 +187,9 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
 
             # Select only the bot response from the response dictionary
-            bot_response = response["text"] # You can also get citations via ["sources_text"]
+            RawBingString = response["text"] # You can also get citations via ["sources_text"]
             await bot.close()
-            return bot_response
+            return RawBingString
         
         # Different ways to run the same EdgeGPT function:
         # From chosen word
