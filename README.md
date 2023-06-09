@@ -15,21 +15,6 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-### 3,5. How to update EdgeGPT. (cookies no longer required)
-
-   a) Make a new clean install. I don't know the exact old file to delete, so I removed the majority of them: go to `TextGenerationWebui\installer_files\env\Lib\site-packages` and delete `EdgeGPT-
-      your.version.number.dist-info`, then scroll down and delete `EdgeGPT.py`.
-      Now just in case go to `TextGenerationWebui\text-generation-webui\extensions\EdgeGPT` and delete the `__pycache__` folder.
-   
-   b) Install again EdgeGPT: open cmd_windows.bat and type `pip install EdgeGPT` or `pip install EdgeGPT==0.6.1` or `pip install EdgeGPT==your.desired.version`.
-      
-   If you want you can check the installed version: `conda list EdgeGPT`.
-   
-4. Run the server with `--chat` and the `EdgeGPT` extension. If all goes well, you should see it reporting "ok"
-```bash
-python server.py --chat --extensions EdgeGPT
-```
-
 ## Features
 - Changeable keyword to activate Bing when you need and how you want
 - Button to leave activated Bing
