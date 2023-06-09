@@ -37,6 +37,11 @@ params = {
     'PrintBingString': False,
     'UseCookies': False,
 }
+if UseCookies:
+    cookies = json.loads(open("./extensions/EdgeGPT/cookies.json", encoding="utf-8").read())
+    bot = Chatbot(cookies=cookies)
+else:
+    bot = Chatbot()
 
 def input_modifier(string):
     global UserInput
@@ -166,13 +171,8 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             global UserInput
             global RawBingString
             global PrintRawBingString
-            global UseCookies
+            global UseCookies        
             
-            if UseCookies:
-                cookies = json.loads(open("./extensions/EdgeGPT/cookies.json", encoding="utf-8").read())
-                bot = await Chatbot.create(cookies=cookies)
-            else:
-                bot = await Chatbot.create()
             
             if BingConversationStyle=="creative":
                 #print("Using creative mode")
@@ -185,6 +185,16 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
                 style = ConversationStyle.precise
             
             response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
+
+            if response["messages_left"] < 2:
+                print("WARNING: You are almost out of Bing messages! Recreating bot...")
+                await bot.close()
+                global bot
+                if UseCookies:
+                    global cookies
+                    bot = await Chatbot.create(cookies=cookies)
+                else:
+                    bot = await Chatbot.create()
 
             # Select only the bot response from the response dictionary
             RawBingString = response["text"] # You can also get citations via ["sources_text"]
