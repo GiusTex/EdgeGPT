@@ -199,17 +199,28 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             elif BingConversationStyle=="precise":
                 style = ConversationStyle.precise
             
-            if UseCookies:
-                global cookies
-                bot = await Chatbot.create(cookies=cookies)
-            else:
-                bot = await Chatbot.create()
+            # Define and create one time the bot
+            bot_created=False
+            if (bot_created==False):
+                if UseCookies:
+                    cookies = json.loads(open("./extensions/EdgeGPT/cookies.json", encoding="utf-8").read())
+                    bot = await Chatbot.create(cookies=cookies)
+                else:
+                    bot = await Chatbot.create()
+                bot_created=True
 
             response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
-
+            
+            # If required, end bot and create a new one
             if response["messages_left"] < 2:
                 print("WARNING: You are almost out of Bing messages! Recreating bot...")
                 await bot.close()
+                if UseCookies:
+                    bot = await Chatbot.create(cookies=cookies)
+                    return bot
+                else:
+                    bot = await Chatbot.create()
+                    return bot
 
             # Select only the bot response from the response dictionary
             bot_response = response["text"] # You can also get citations via ["sources_text"]
