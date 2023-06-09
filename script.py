@@ -176,20 +176,20 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             
             if BingConversationStyle=="creative":
                 #print("Using creative mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+                style = ConversationStyle.creative
             elif BingConversationStyle=="balanced":
                 #print("Using balanced mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.balanced)
+                style = ConversationStyle.balanced
             elif BingConversationStyle=="precise":
                 #print("Using precise mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.precise)
+                style = ConversationStyle.precise
+            
+            response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
 
             # Select only the bot response from the response dictionary
-            bot_response = response["item"]["messages"][-1]["adaptiveCards"][0]["body"][0]["text"]
-            # Remove [^#^] citations in response
-            RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+            bot_response = response["text"] # You can also get citations via ["sources_text"]
             await bot.close()
-            return RawBingString
+            return bot_response
         
         # Different ways to run the same EdgeGPT function:
         # From chosen word
