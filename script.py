@@ -10,6 +10,26 @@ from modules.text_generation import (get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
 
 
+#------------------------------------------------------------
+# Get current acheong08 EdgeGPT version installed
+#------------------------------------------------------------
+# Run "conda list EdgeGPT" and get output
+command = "conda list EdgeGPT"
+conda_version = subprocess.check_output(command, shell=True)
+# Decode output into string
+conda_version_output = conda_version.decode("utf-8")
+# Find version
+pattern = r"edgegpt\s+(\S+)"
+match = re.search(pattern, conda_version_output)
+if match:
+    version = match.group(1)
+    print("acheong08 EdgeGPT core script: ", version)
+else:
+    print("Version not found.")
+
+#------------------------------------------------------------
+# Normal oobaboga webui
+#------------------------------------------------------------
 BingOutput=None
 RawBingString=None
 BingString=None
@@ -166,7 +186,9 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             rows.append(substrings['user_turn_stripped'].rstrip(' '))
     elif not _continue:
 
-        #Adding BingString
+        #------------------------------------------------------------
+        # Add Bing output
+        #------------------------------------------------------------
         async def EdgeGPT():
             global UserInput
             global RawBingString
@@ -175,17 +197,13 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             
             
             if BingConversationStyle=="creative":
-                #print("Using creative mode")
                 style = ConversationStyle.creative
             elif BingConversationStyle=="balanced":
-                #print("Using balanced mode")
                 style = ConversationStyle.balanced
             elif BingConversationStyle=="precise":
-                #print("Using precise mode")
                 style = ConversationStyle.precise
             
             response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
-
             if response["messages_left"] < 2:
                 print("WARNING: You are almost out of Bing messages! Recreating bot...")
                 await bot.close()
@@ -198,6 +216,11 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
 
             # Select only the bot response from the response dictionary
             RawBingString = response["text"] # You can also get citations via ["sources_text"]
+            
+            # Remove [^#^] citations in response
+            bot_response_fixed = re.sub(r"\*", "", bot_response)
+            RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response_fixed))
+            
             await bot.close()
             return RawBingString
         
