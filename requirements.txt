@@ -1,1 +1,1 @@
-EdgeGPT>=0.10.8
+EdgeGPT>=0.10.9
