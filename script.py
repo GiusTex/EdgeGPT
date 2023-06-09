@@ -4,7 +4,7 @@ import json
 import modules.shared as shared
 import gradio as gr
 
-from EdgeGPT import Chatbot, ConversationStyle
+from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
 from modules.chat import replace_all, get_turn_substrings
 from modules.text_generation import (get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
@@ -176,20 +176,18 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             
             if BingConversationStyle=="creative":
                 #print("Using creative mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.creative)
+                style = ConversationStyle.creative
             elif BingConversationStyle=="balanced":
                 #print("Using balanced mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.balanced)
+                style = ConversationStyle.balanced
             elif BingConversationStyle=="precise":
                 #print("Using precise mode")
-                response = await bot.ask(prompt=UserInput, conversation_style=ConversationStyle.precise)
+                style = ConversationStyle.precise
+            
+            response = await bot.ask(prompt=UserInput, conversation_style=style, simplify_response=True)
 
             # Select only the bot response from the response dictionary
-            for message in response["item"]["messages"]:
-                if message["author"] == "bot":
-                    bot_response = message["text"]
-            # Remove [^#^] citations in response
-            RawBingString = re.sub('\[\^\d+\^\]', '', str(bot_response))
+            RawBingString = response["text"] # You can also get citations via ["sources_text"]
             await bot.close()
             return RawBingString
         
