@@ -16,7 +16,7 @@ pip install -r EdgeGPT/requirements.txt
 ```
 
 ## How to update
-- Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT==0.10.9`.
+- Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT==0.10.11`.
 - Go in the EdgeGPT extension folder, copy the path, then in the `cmd.bat` file type `cd your\copied\path git pull`.
 
 ## Features
