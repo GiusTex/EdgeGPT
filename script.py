@@ -128,7 +128,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     impersonate = kwargs.get('impersonate', False)
     _continue = kwargs.get('_continue', False)
     also_return_rows = kwargs.get('also_return_rows', False)
-    history = kwargs.get('history', shared.history)['internal']
+    history = kwargs.get('history', state['history'])['internal']
     is_instruct = state['mode'] == 'instruct'
 
     # Finding the maximum prompt size
@@ -150,10 +150,10 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
         if impersonate:
             wrapper += substrings['user_turn_stripped'].rstrip(' ')
         elif _continue:
-            wrapper += apply_extensions("bot_prefix", substrings['bot_turn_stripped'])
+            wrapper += apply_extensions('bot_prefix', substrings['bot_turn_stripped'], state)
             wrapper += history[-1][1]
         else:
-            wrapper += apply_extensions("bot_prefix", substrings['bot_turn_stripped'].rstrip(' '))
+            wrapper += apply_extensions('bot_prefix', substrings['bot_turn_stripped'].rstrip(' '), state)
     else:
         wrapper = '<|prompt|>'
 
@@ -258,7 +258,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
 
         # Add the character prefix
         if state['mode'] != 'chat-instruct':
-            rows.append(apply_extensions("bot_prefix", substrings['bot_turn_stripped'].rstrip(' ')))
+            rows.append(apply_extensions('bot_prefix', substrings['bot_turn_stripped'].rstrip(' '), state))
 
     while len(rows) > min_rows and get_encoded_length(wrapper.replace('<|prompt|>', ''.join(rows))) >= max_length:
         rows.pop(1)
