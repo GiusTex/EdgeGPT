@@ -26,7 +26,6 @@ pip install -r EdgeGPT/requirements.txt
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
 - Bing conversation style (creative,balanced,precise). No inside the webui
-- It works on Colab now, without cookies. I uploaded a colab you can test, scroll down to open it
 - Added an option to use cookies
 
 #### Keyword
@@ -62,16 +61,6 @@ pip install -r EdgeGPT/requirements.txt
 
 #### Bing conversation style
 > You can choose 3 Bing conversation styles between `creative`, `balanced` or `precise` from EdgeGPT options.
-
-#### Colab
-> I merged and created a colab version of the text-generation-webui where you can use the new EdgeGPT (it works on Colab without cookies), and use different models and extensions: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/GiusTex/EdgeGPT/blob/main/Text-generation-webui-EdgeGPT.ipynb).
-
-Required fixes:
-
-> There is a fix to do, for now you can download the extension script fom `extensions>EdgeGpt>script.py`, and delete the lines from 14 to 29, then upload the file where it was (in `extensions>EdgEpt`). This way it 
-      won't require conda the version of EdgeGpt, since colab has no conda, I think.
-
-> After you uploaded the edited file, run again the webui (without installing everything again, or it will undo what you did)
 
 #### Cookies
 > Since many people had login issues, now there is an option to use cookies, thanks to [Simplegram](https://github.com/GiusTex/EdgeGPT/issues/12#issuecomment-1573176097) and some other edits of mine, you can turn them on from EdgeGPT options. To use them follow the instructions [here](how-to-use-cookies.md).
