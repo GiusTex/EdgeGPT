@@ -12,7 +12,7 @@ Now you can give a sort of Internet access to your characters, easily, quickly a
 
 [How it works](#how-it-works)
 
-[Weaknesses](#weaknesses)
+[Weaknesses and known errors](#weaknesses)
 
 [Contributing](#contributing)
 
