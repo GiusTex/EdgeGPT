@@ -17,7 +17,7 @@ body:
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
-      description: Please search to see if an issue already exists for the issue you encountered. You can search on the known weaknesses [here](https://github.com/GiusTex/EdgeGPT) or among the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
+      description: Please search to see if an issue already exists for the issue you encountered. You can search between the [known weaknesses](https://github.com/GiusTex/EdgeGPT#weaknesses) or among the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
       options:
         - label: I have searched the existing issues
           required: true
