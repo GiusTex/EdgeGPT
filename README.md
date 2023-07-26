@@ -1,6 +1,7 @@
 # EdgeGPT
-Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
+- Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
 Now you can give a sort of Internet access to your characters, easily, quickly and free.
+- If you have some errors check the known weaknesses at the end of the page and/or the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
 ## How to Run
 1. Clone [oobabooga's  original repository](https://github.com/oobabooga/text-generation-webui) and follow the instructions until you can chat with a chatbot.
@@ -16,8 +17,8 @@ pip install -r EdgeGPT/requirements.txt
 ```
 
 ## How to update
-- Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT==0.10.11`.
-- Go in the EdgeGPT extension folder, copy the path, then in the `cmd.bat` file type `cd your\copied\path git pull`.
+- Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT`.
+- Go in the EdgeGPT extension folder, copy the path, then in the `cmd.bat` file type `cd your\copied\path`, press enter then type `git pull`.
 
 ## Features
 - Changeable keyword to activate Bing when you need and how you want
