@@ -1,7 +1,7 @@
 # EdgeGPT
 - Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
 Now you can give a sort of Internet access to your characters, easily, quickly and free.
-- If you have some errors check the known weaknesses at the end of the page and/or the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
+- If you have some errors check the [known weaknesses](https://github.com/GiusTex/EdgeGPT#weaknesses) and the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
 # Table of contents
 [How to Run](#how-to-run)
@@ -123,7 +123,12 @@ And at the end it takes RawBingString and adds it Bing context (useful to tell t
 Being still a new application, you are welcome to make tests to find your optimal result, be it clearing the conversation, changing the context around the Bing output, or something else.
 - Sometimes the character ignores the Bing output, even if it is in his memory, in this case asking "Can you repeat me [whatever you asked]" may help.
 - The character could start his answer with `:`, but after some messages it goes away.
-- If you get a `captcha error` you can try writing something on `bing.com` to complete the captcha, and if you still get the error you can use the `cookies option` (after writing something on `bing.com`).
+
+#### KeyError: 'adaptiveCards'
+You can read about the same problem [here](https://github.com/GiusTex/EdgeGPT/issues/7#issuecomment-1565997140). Removing `--listen` helped a bit (the error showed up less frequently); if you are using `notebook` mode it may not work.
+
+#### Captcha error
+If you get a `captcha error` you can try writing something on `bing.com` to complete the captcha, and if you still get the error you can use the `cookies option` (after writing something on `bing.com`).
 <img src="https://github.com/GiusTex/EdgeGPT/assets/112352961/6312e628-da7b-4390-babd-043d7881971b.png" width="634" height="160">
 
 ## Contributing
