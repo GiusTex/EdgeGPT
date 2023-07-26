@@ -12,15 +12,11 @@ Now you can give a sort of Internet access to your characters, easily, quickly a
 
 [How it works](#how-it-works)
 
-Weaknesses
+[Weaknesses](#weaknesses)
 
-Contributing
+[Contributing](#contributing)
 
-Credits and inspiration
-
-[Link 3](#link-3)
- 
-# [Link 3] 
+[Credits and inspiration](#credits-and-inspiration)
 
 ## How to Run
 1. Clone [oobabooga's  original repository](https://github.com/oobabooga/text-generation-webui) and follow the instructions until you can chat with a chatbot.
