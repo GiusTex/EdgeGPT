@@ -128,8 +128,11 @@ Being still a new application, you are welcome to make tests to find your optima
 You can read about the same problem [here](https://github.com/GiusTex/EdgeGPT/issues/7#issuecomment-1565997140). Removing `--listen` helped a bit (the error showed up less frequently); if you are using `notebook` mode it may not work.
 
 #### Captcha error
-If you get a `captcha error` you can try writing something on `bing.com` to complete the captcha, and if you still get the error you can use the `cookies option` (after writing something on `bing.com`).
+If you get a `captcha error` you have to write something on [bing.com-chat](https://www.bing.com/search?q=bing+ai&qs=HS&pq=bing+ai&sc=10-7&cvid=5A268A838E214970BE995A8660664C9E&FORM=QBRE&sp=1&lq=0) to complete the captcha, if then you still get the error you can use the `cookies option` (after writing something on `bing.com-chat`).
 <img src="https://github.com/GiusTex/EdgeGPT/assets/112352961/6312e628-da7b-4390-babd-043d7881971b.png" width="634" height="160">
+
+#### Colab
+There was a Colab notebook before, you can still get and download it from this [commit](https://github.com/GiusTex/EdgeGPT/blob/ff8c20b67c7a54a35dc188bf46f8eaf47ed031c8/Text-generation-webui-EdgeGPT.ipynb), but sometimes the IP is blocked (`Authentication failed`, [link](https://github.com/GiusTex/EdgeGPT/issues/25#issuecomment-1645676820)), and sometimes it works but you get another error, so in the end I removed and won't support it. You are free to edit and share it if you want.
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
