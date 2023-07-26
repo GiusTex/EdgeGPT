@@ -4,11 +4,23 @@ Now you can give a sort of Internet access to your characters, easily, quickly a
 - If you have some errors check the known weaknesses at the end of the page and/or the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
 # Table of contents
-[Link 1](#link-1)
+[How to Run](#how-to-run)
 
-[Link 2](#link-2)
+[How to update](#how-to-update)
+
+[Features](#features)
+
+[How it works](#how-it-works)
+
+Weaknesses
+
+Contributing
+
+Credits and inspiration
 
 [Link 3](#link-3)
+ 
+# [Link 3] 
 
 ## How to Run
 1. Clone [oobabooga's  original repository](https://github.com/oobabooga/text-generation-webui) and follow the instructions until you can chat with a chatbot.
@@ -117,10 +129,6 @@ Being still a new application, you are welcome to make tests to find your optima
 - The character could start his answer with `:`, but after some messages it goes away.
 - If you get a `captcha error` you can try writing something on `bing.com` to complete the captcha, and if you still get the error you can use the `cookies option` (after writing something on `bing.com`).
 <img src="https://github.com/GiusTex/EdgeGPT/assets/112352961/6312e628-da7b-4390-babd-043d7881971b.png" width="634" height="160">
-
-# [Link 1] 
-# [Link 2] 
-# [Link 3] 
 
 ## Contributing
 Pull requests, suggestions and bug reports are welcome, but as I'm not a programmer I can't guarantee I'll be of help.
