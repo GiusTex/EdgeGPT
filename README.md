@@ -3,6 +3,17 @@
 Now you can give a sort of Internet access to your characters, easily, quickly and free.
 - If you have some errors check the known weaknesses at the end of the page and/or the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
+# Table of contents
+[Link 1](#link-1)
+
+[Link 2](#link-2)
+
+[Link 3](#link-3)
+
+# [Link 1] 
+# [Link 2] 
+# [Link 3] 
+
 ## How to Run
 1. Clone [oobabooga's  original repository](https://github.com/oobabooga/text-generation-webui) and follow the instructions until you can chat with a chatbot.
 
