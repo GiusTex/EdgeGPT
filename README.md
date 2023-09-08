@@ -31,6 +31,8 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
+4. Activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
+
 ## How to update
 - Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT`.
 - Go in the EdgeGPT extension folder, copy the path, then in the `cmd.bat` file type `cd your\copied\path`, press enter then type `git pull`.
@@ -130,6 +132,8 @@ You can read about the same problem [here](https://github.com/GiusTex/EdgeGPT/is
 #### Captcha error
 If you get a `captcha error` you have to write something on [bing.com-chat](https://www.bing.com/search?q=bing+ai&qs=HS&pq=bing+ai&sc=10-7&cvid=5A268A838E214970BE995A8660664C9E&FORM=QBRE&sp=1&lq=0) to complete the captcha, if then you still get the error you can use the `cookies option` (after writing something on `bing.com-chat`).
 <img src="https://github.com/GiusTex/EdgeGPT/assets/112352961/6312e628-da7b-4390-babd-043d7881971b.png" width="634" height="160">
+
+Now you need to always activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
 
 #### Colab
 There was a Colab notebook before, you can still get and download it from this [commit](https://github.com/GiusTex/EdgeGPT/blob/ff8c20b67c7a54a35dc188bf46f8eaf47ed031c8/Text-generation-webui-EdgeGPT.ipynb), but sometimes the IP is blocked (`Authentication failed`, [link](https://github.com/GiusTex/EdgeGPT/issues/25#issuecomment-1645676820)), and sometimes it works but you get another error, so in the end I removed and won't support it. You are free to edit and share it if you want.
