@@ -139,7 +139,7 @@ If you get a `captcha error` you have to write something on [bing.com-chat](http
 Now you need to always activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
 
 #### KeyError: 'conversationSignature'
-If you get this error, update the webui (you can delete the chat; close the webui; reload the model, etc). Today Edgegpt worked again without cookies, while I got the error using them, so you can try not using them and see if it works.
+If you get this error, update the webui state (delete the chat; close the webui; reload the model, etc. Basically do something after the error). Today Edgegpt worked again without cookies, while I got the error using them, so you can try not using them and see if it works.
 
 #### Colab
 There was a Colab notebook before, you can still get and download it from this [commit](https://github.com/GiusTex/EdgeGPT/blob/ff8c20b67c7a54a35dc188bf46f8eaf47ed031c8/Text-generation-webui-EdgeGPT.ipynb), but sometimes the IP is blocked (`Authentication failed`, [link](https://github.com/GiusTex/EdgeGPT/issues/25#issuecomment-1645676820)), and sometimes it works but you get another error, so in the end I removed and won't support it. You are free to edit and share it if you want.
