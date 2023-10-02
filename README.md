@@ -34,7 +34,7 @@ git clone https://github.com/GiusTex/EdgeGPT.git
 pip install -r EdgeGPT/requirements.txt
 ```
 
-4. (OPTIONAL) Activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
+4. (OPTIONAL) Activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). If you get a captcha error or a login problem try enabling them.
 
 ## How to update
 - Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT`.
