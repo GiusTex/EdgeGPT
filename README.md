@@ -29,12 +29,12 @@ Now you can give a sort of Internet access to your characters, easily, quickly a
 git clone https://github.com/GiusTex/EdgeGPT.git
 ```
 
-3. Activate the `textgen` conda environment (from the linked instructions, or TextGenerationWebui\installer_files\env if you used the one-click installer), then if you see in console: `(path\to\textgen) path\to\text-generation-webui\extensions>` or `(path\to\TextGenerationWebui\installer_files\env) path\to\TextGenerationWebui\text-generation-webui\extensions>`, run the following commands to install EdgeGPT:
+3. Enter the `textgen` conda environment using the `cmd_windows.bat`/`...mac.sh`/etc, then type and run:
 ```bash
 pip install -r EdgeGPT/requirements.txt
 ```
 
-4. Activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
+4. (OPTIONAL) Activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
 
 ## How to update
 - Open `cmd_windows.bat` (or `Linux` or `macOS` depending on the platform you have) and type `pip install EdgeGPT`.
