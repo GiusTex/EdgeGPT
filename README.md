@@ -2,7 +2,7 @@
 - Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
 Now you can give a sort of Internet access to your characters, easily, quickly and free.
 
-  #### Last tested and working text-genation-webui commit: [0197fdddf106270ccf77fc2757d7bc53cc9729d4](https://github.com/oobabooga/text-generation-webui/tree/0197fdddf106270ccf77fc2757d7bc53cc9729d4).
+  #### Last tested and working text-generation-webui commit: [0197fdddf106270ccf77fc2757d7bc53cc9729d4](https://github.com/oobabooga/text-generation-webui/tree/0197fdddf106270ccf77fc2757d7bc53cc9729d4).
 
 - If you have some errors check the [known weaknesses](https://github.com/GiusTex/EdgeGPT#weaknesses) and the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
