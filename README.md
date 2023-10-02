@@ -1,6 +1,9 @@
 # EdgeGPT
 - Extension for Text Generation Webui based on [EdgeGPT](https://github.com/acheong08/EdgeGPT) by acheong08, a reverse engineered API of Microsoft's Bing Chat AI.
 Now you can give a sort of Internet access to your characters, easily, quickly and free.
+
+  #### Last tested and working text-genation-webui commit: [0197fdddf106270ccf77fc2757d7bc53cc9729d4](https://github.com/oobabooga/text-generation-webui/tree/0197fdddf106270ccf77fc2757d7bc53cc9729d4).
+
 - If you have some errors check the [known weaknesses](https://github.com/GiusTex/EdgeGPT#weaknesses) and the [past issues](https://github.com/GiusTex/EdgeGPT/issues?q=is%3Aissue+sort%3Aupdated-desc+).
 
 # Table of contents
@@ -134,6 +137,9 @@ If you get a `captcha error` you have to write something on [bing.com-chat](http
 <img src="https://github.com/GiusTex/EdgeGPT/assets/112352961/6312e628-da7b-4390-babd-043d7881971b.png" width="634" height="160">
 
 Now you need to always activate the [cookies](https://github.com/GiusTex/EdgeGPT/blob/main/how-to-use-cookies.md). One of the obabooga commits made the extension always gives the captcha error if cookies are not used.
+
+#### KeyError: 'conversationSignature'
+If you get this error, update the webui (you can delete the chat; close the webui; reload the model, etc). Today Edgegpt worked again without cookies, while I got the error using them, so you can try not using them and see if it works.
 
 #### Colab
 There was a Colab notebook before, you can still get and download it from this [commit](https://github.com/GiusTex/EdgeGPT/blob/ff8c20b67c7a54a35dc188bf46f8eaf47ed031c8/Text-generation-webui-EdgeGPT.ipynb), but sometimes the IP is blocked (`Authentication failed`, [link](https://github.com/GiusTex/EdgeGPT/issues/25#issuecomment-1645676820)), and sometimes it works but you get another error, so in the end I removed and won't support it. You are free to edit and share it if you want.
