@@ -41,12 +41,11 @@ pip install -r EdgeGPT/requirements.txt
 - Go in the EdgeGPT extension folder, copy the path, then in the `cmd.bat` file type `cd your\copied\path`, press enter then type `git pull`.
 
 ## Features
-- Changeable keyword to activate Bing when you need and how you want
-- Button to leave activated Bing
+- Option to use changeable keyword to activate Bing, or use it always
 - 5 debug buttons to show or print different parts of the prompt
 - Works in chat-mode, so you can use your desired characters
 - Editable Bing context within the webui
-- Bing conversation style (creative,balanced,precise). No inside the webui
+- Bing conversation style (creative,balanced,precise)
 - Added an option to use cookies
 
 #### Keyword
