@@ -6,7 +6,7 @@ import modules.shared as shared
 import gradio as gr
 
 from EdgeGPT.EdgeGPT import Chatbot, ConversationStyle
-from modules.chat import replace_all, get_turn_substrings
+from modules.chat import replace_all, get_turn_substrings, replace_character_names
 from modules.text_generation import (get_max_prompt_length, get_encoded_length)
 from modules.extensions import apply_extensions
 
@@ -157,10 +157,19 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
     else:
         wrapper = '<|prompt|>'
 
-    # Build the prompt
+    if is_instruct:
+        context = state['context_instruct']
+    else:
+        context = replace_character_names(
+            f"{state['context'].strip()}\n",
+            state['name1'],
+            state['name2']
+        )
+
+     # Build the prompt
+    rows = [context]
     min_rows = 3
     i = len(history) - 1
-    rows = [state['context_instruct'] if is_instruct else f"{state['context'].strip()}\n"]
     while i >= 0 and get_encoded_length(wrapper.replace('<|prompt|>', ''.join(rows))) < max_length:
         if _continue and i == len(history) - 1:
             if state['mode'] != 'chat-instruct':
@@ -252,7 +261,7 @@ def custom_generate_chat_prompt(user_input, state, **kwargs):
             # Add Bing output to character memory
             rows.append(BingString)
 
-        # Adding the user message
+        # Add the user message
         if len(user_input) > 0:
             rows.append(replace_all(substrings['user_turn'], {'<|user-message|>': user_input.strip(), '<|round|>': str(len(history))}))
 
